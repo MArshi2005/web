@@ -418,6 +418,246 @@
             transform: translateY(-3px);
         }
         
+        /* استایل‌های بخش تکمیل خرید */
+        .checkout-steps {
+            margin-bottom: 2rem;
+        }
+
+        .checkout-steps .steps {
+            position: relative;
+        }
+
+        .checkout-steps .steps:before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            right: 0;
+            left: 0;
+            height: 2px;
+            background-color: #e9ecef;
+            z-index: 1;
+        }
+
+        .checkout-steps .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .checkout-steps .step-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-steps .step.active .step-circle {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .checkout-steps .step.completed .step-circle {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .checkout-steps .step-title {
+            font-size: 0.85rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .checkout-steps .step.active .step-title {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .checkout-steps .step.completed .step-title {
+            color: #28a745;
+        }
+
+        .checkout-step {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .checkout-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .shipping-option, .payment-option {
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .shipping-option:hover, .payment-option:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .shipping-option.active, .payment-option.active {
+            border-color: #007bff;
+            background-color: #e7f1ff;
+        }
+
+        .shipping-option .form-check, .payment-option .form-check {
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .shipping-option .form-check-input {
+            margin-top: 0;
+            margin-left: 10px;
+        }
+
+        .shipping-option label, .payment-option label {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .shipping-title, .payment-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .shipping-desc, .payment-desc {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .shipping-price {
+            margin-top: 5px;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .card-details {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .order-summary {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin-left: 15px;
+            border-radius: 5px;
+        }
+
+        .order-item-details {
+            flex: 1;
+        }
+
+        .order-item-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .order-item-quantity {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .order-item-price {
+            font-weight: bold;
+            color: #dc3545;
+        }
+
+        .terms-content h6 {
+            color: #495057;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .terms-content p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .success-icon {
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            70% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* استایل برای فرم‌های اعتبارسنجی */
+        .was-validated .form-control:valid {
+            border-color: #28a745;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+
+        .was-validated .form-control:invalid {
+            border-color: #dc3545;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+        
         /* استایل‌های موبایل */
         @media (max-width: 768px) {
             body {
@@ -453,6 +693,10 @@
             .d-flex.justify-content-between.align-items-center.mb-3 {
                 flex-direction: column;
                 align-items: flex-start !important;
+            }
+            
+            .checkout-steps .step-title {
+                font-size: 0.75rem;
             }
         }
         
@@ -530,6 +774,64 @@
         .password-input .input-group .btn {
             border-color: #ced4da;
         }
+
+        /* استایل‌های جدید برای بخش کاربری */
+        .user-section .dropdown-toggle {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-section .dropdown-toggle i {
+            font-size: 1.2rem;
+        }
+
+        .user-section .dropdown-menu {
+            min-width: 200px;
+        }
+
+        .user-section .dropdown-item {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-section .dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .user-section .dropdown-divider {
+            margin: 5px 0;
+        }
+
+        .auth-buttons .btn {
+            white-space: nowrap;
+        }
+
+        /* استایل‌های ریسپانسیو */
+        @media (max-width: 768px) {
+            .user-section .dropdown-menu {
+                position: static !important;
+                transform: none !important;
+                margin-top: 10px;
+            }
+            
+            .user-section, .auth-buttons {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .user-section .dropdown-toggle,
+            .auth-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .auth-buttons .btn {
+                margin: 5px 0 !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -584,16 +886,63 @@
                                    placeholder="جستجو..." aria-label="جستجو در محصولات">
                             <div class="search-results" id="searchResults"></div>
                         </div>
-                        <div class="user-menu ms-3">
+                        
+                        <!-- بخش کاربر - ابتدا مخفی است -->
+                        <div class="user-section ms-3" id="userSection" style="display: none;">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" 
+                                        data-bs-toggle="dropdown" aria-expanded="false" aria-label="منوی کاربری">
+                                    <i class="fas fa-user-circle me-1"></i>
+                                    <span id="userName">کاربر</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="profile.html">
+                                            <i class="fas fa-user me-2"></i>پروفایل من
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="orders.html">
+                                            <i class="fas fa-shopping-bag me-2"></i>سفارش‌های من
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="wishlist.html">
+                                            <i class="fas fa-heart me-2"></i>لیست علاقه‌مندی‌ها
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="addresses.html">
+                                            <i class="fas fa-map-marker-alt me-2"></i>آدرس‌های من
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="settings.html">
+                                            <i class="fas fa-cog me-2"></i>تنظیمات حساب
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item text-danger" id="logoutBtn">
+                                            <i class="fas fa-sign-out-alt me-2"></i>خروج از حساب
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- دکمه‌های ورود/ثبت‌نام - ابتدا نمایش داده می‌شوند -->
+                        <div class="auth-buttons ms-3" id="authButtons">
                             <button class="btn btn-outline-light login-btn" data-bs-toggle="modal" 
                                     data-bs-target="#authModal" aria-label="ورود به حساب کاربری">
                                 <i class="fas fa-user" aria-hidden="true"></i> ورود
                             </button>
-                            <button class="btn btn-outline-light register-btn" data-bs-toggle="modal" 
+                            <button class="btn btn-outline-light register-btn ms-2" data-bs-toggle="modal" 
                                     data-bs-target="#authModal" aria-label="ثبت‌نام در سایت">
                                 <i class="fas fa-user-plus" aria-hidden="true"></i> ثبت‌نام
                             </button>
                         </div>
+                        
                         <div class="cart-menu ms-3">
                             <button class="btn btn-outline-light position-relative" aria-label="سبد خرید" data-bs-toggle="modal" data-bs-target="#cartModal">
                                 <i class="fas fa-shopping-cart" aria-hidden="true"></i>
@@ -1640,6 +1989,302 @@
         </div>
     </div>
 
+    <!-- مودال تکمیل خرید -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="checkoutModalLabel">تکمیل خرید</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- مراحل خرید -->
+                    <div class="checkout-steps mb-4">
+                        <div class="steps d-flex justify-content-between">
+                            <div class="step active" data-step="1">
+                                <div class="step-circle">1</div>
+                                <div class="step-title">اطلاعات شخصی</div>
+                            </div>
+                            <div class="step" data-step="2">
+                                <div class="step-circle">2</div>
+                                <div class="step-title">نحوه ارسال</div>
+                            </div>
+                            <div class="step" data-step="3">
+                                <div class="step-circle">3</div>
+                                <div class="step-title">روش پرداخت</div>
+                            </div>
+                            <div class="step" data-step="4">
+                                <div class="step-circle">4</div>
+                                <div class="step-title">تایید نهایی</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- محتوای مراحل -->
+                    <div class="checkout-content">
+                        <!-- مرحله 1: اطلاعات شخصی -->
+                        <div class="checkout-step active" id="step1">
+                            <h6 class="mb-3">لطفا اطلاعات شخصی خود را وارد کنید</h6>
+                            <form id="personalInfoForm">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="firstName" class="form-label">نام</label>
+                                        <input type="text" class="form-control" id="firstName" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="lastName" class="form-label">نام خانوادگی</label>
+                                        <input type="text" class="form-control" id="lastName" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone" class="form-label">شماره تماس</label>
+                                        <input type="tel" class="form-control" id="phone" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">ایمیل</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">آدرس کامل</label>
+                                    <textarea class="form-control" id="address" rows="3" required></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="city" class="form-label">شهر</label>
+                                        <input type="text" class="form-control" id="city" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="province" class="form-label">استان</label>
+                                        <input type="text" class="form-control" id="province" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="postalCode" class="form-label">کد پستی</label>
+                                        <input type="text" class="form-control" id="postalCode" required>
+                                    </div>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input type="checkbox" class="form-check-input" id="saveInfo">
+                                    <label class="form-check-label" for="saveInfo">ذخیره این اطلاعات برای دفعات بعد</label>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- مرحله 2: نحوه ارسال -->
+                        <div class="checkout-step" id="step2">
+                            <h6 class="mb-3">روش ارسال را انتخاب کنید</h6>
+                            <div class="shipping-methods">
+                                <div class="shipping-option active">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="shippingMethod" id="shipping1" value="express" checked>
+                                        <label class="form-check-label" for="shipping1">
+                                            <span class="shipping-title">پست پیشتاز</span>
+                                            <span class="shipping-desc">تحویل ۲-۳ روز کاری</span>
+                                            <span class="shipping-price">رایگان</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="shipping-option">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="shippingMethod" id="shipping2" value="standard">
+                                        <label class="form-check-label" for="shipping2">
+                                            <span class="shipping-title">پست سفارشی</span>
+                                            <span class="shipping-desc">تحویل ۴-۷ روز کاری</span>
+                                            <span class="shipping-price">۱۵,۰۰۰ تومان</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="shipping-option">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="shippingMethod" id="shipping3" value="pickup">
+                                        <label class="form-check-label" for="shipping3">
+                                            <span class="shipping-title">دریافت حضوری</span>
+                                            <span class="shipping-desc">از فروشگاه اصلی</span>
+                                            <span class="shipping-price">رایگان</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- مرحله 3: روش پرداخت -->
+                        <div class="checkout-step" id="step3">
+                            <h6 class="mb-3">روش پرداخت را انتخاب کنید</h6>
+                            <div class="payment-methods">
+                                <div class="payment-option active">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="paymentMethod" id="payment1" value="online" checked>
+                                        <label class="form-check-label" for="payment1">
+                                            <i class="fas fa-credit-card fa-lg me-2"></i>
+                                            <span class="payment-title">پرداخت آنلاین</span>
+                                            <span class="payment-desc">پرداخت امن از طریق درگاه بانکی</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="payment-option">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="paymentMethod" id="payment2" value="cash">
+                                        <label class="form-check-label" for="payment2">
+                                            <i class="fas fa-money-bill-wave fa-lg me-2"></i>
+                                            <span class="payment-title">پرداخت در محل</span>
+                                            <span class="payment-desc">پرداخت نقدی هنگام تحویل کالا</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="payment-option">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="paymentMethod" id="payment3" value="bank">
+                                        <label class="form-check-label" for="payment3">
+                                            <i class="fas fa-university fa-lg me-2"></i>
+                                            <span class="payment-title">واریز بانکی</span>
+                                            <span class="payment-desc">واریز به حساب بانکی فروشگاه</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- اطلاعات کارت بانکی (فقط برای پرداخت آنلاین) -->
+                            <div class="card-details mt-4" id="cardDetails">
+                                <h6 class="mb-3">اطلاعات کارت بانکی</h6>
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="cardNumber" class="form-label">شماره کارت</label>
+                                        <input type="text" class="form-control" id="cardNumber" placeholder="**** **** **** ****" maxlength="19">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="expiryDate" class="form-label">تاریخ انقضا</label>
+                                        <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" maxlength="5">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="cvv" class="form-label">CVV</label>
+                                        <input type="text" class="form-control" id="cvv" placeholder="***" maxlength="3">
+                                    </div>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input type="checkbox" class="form-check-input" id="saveCard">
+                                    <label class="form-check-label" for="saveCard">ذخیره اطلاعات کارت برای خریدهای بعدی</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- مرحله 4: تایید نهایی -->
+                        <div class="checkout-step" id="step4">
+                            <h6 class="mb-3">خلاصه سفارش</h6>
+                            <div class="order-summary mb-4">
+                                <div class="order-items" id="orderItems">
+                                    <!-- آیتم‌های سفارش به صورت پویا اضافه می‌شوند -->
+                                </div>
+                                <div class="order-totals mt-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>جمع کالاها:</span>
+                                        <span id="orderSubtotal">0 تومان</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>هزینه ارسال:</span>
+                                        <span id="orderShipping">0 تومان</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>مالیات:</span>
+                                        <span id="orderTax">0 تومان</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between fw-bold fs-5 mt-3 pt-3 border-top">
+                                        <span>مبلغ قابل پرداخت:</span>
+                                        <span id="orderTotal">0 تومان</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="order-info mb-4">
+                                <h6 class="mb-2">اطلاعات تحویل</h6>
+                                <div id="deliveryInfo">
+                                    <!-- اطلاعات تحویل به صورت پویا اضافه می‌شود -->
+                                </div>
+                            </div>
+                            
+                            <div class="terms-agreement">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="agreeTermsCheckout" required>
+                                    <label class="form-check-label" for="agreeTermsCheckout">
+                                        با <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">قوانین و شرایط</a> فروشگاه موافقم
+                                    </label>
+                                    <div class="invalid-feedback">لطفا با قوانین موافقت کنید</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="prevStepBtn" style="display: none;">مرحله قبل</button>
+                    <button type="button" class="btn btn-primary" id="nextStepBtn">مرحله بعد</button>
+                    <button type="button" class="btn btn-success" id="confirmOrderBtn" style="display: none;">تایید و پرداخت</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال شرایط و قوانین -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="termsModalLabel">قوانین و شرایط فروشگاه</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="terms-content">
+                        <h6>شرایط عمومی</h6>
+                        <p>1. تمامی کالاها و خدمات ارائه شده در این فروشگاه، دارای گارانتی اصالت کالا می‌باشند.</p>
+                        <p>2. قیمت‌های درج شده برای کالاها به تومان می‌باشد.</p>
+                        <p>3. فروشگاه اینترنتی لپ‌تاپ Mahdi Arshi مجاز است در صورت عدم موجودی کالا، سفارش مشتری را لغو نماید.</p>
+                        
+                        <h6 class="mt-4">شرایط ارسال</h6>
+                        <p>1. ارسال کالا پس از تایید پرداخت انجام می‌شود.</p>
+                        <p>2. زمان تحویل کالا بسته به شهر مقصد و روش ارسال انتخاب شده متفاوت است.</p>
+                        <p>3. هزینه ارسال بر عهده خریدار است مگر در مواردی که فروشگاه ارسال رایگان اعلام کرده باشد.</p>
+                        
+                        <h6 class="mt-4">شرایط بازگشت کالا</h6>
+                        <p>1. امکان بازگشت کالا تا ۷ روز پس از تحویل وجود دارد.</p>
+                        <p>2. کالای بازگشتی باید در شرایط اولیه و بدون هیچگونه آسیبی باشد.</p>
+                        <p>3. هزینه بازگشت کالا در صورت عدم رضایت از کیفیت محصول بر عهده فروشگاه می‌باشد.</p>
+                        
+                        <h6 class="mt-4">حریم خصوصی</h6>
+                        <p>1. تمامی اطلاعات شخصی شما نزد ما محفوظ می‌ماند.</p>
+                        <p>2. ما اطلاعات شما را به شخص ثالثی نمی‌فروشیم یا اجاره نمی‌دهیم.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال موفقیت آمیز بودن خرید -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="success-icon mb-4">
+                        <i class="fas fa-check-circle fa-5x text-success"></i>
+                    </div>
+                    <h4 class="mb-3">سفارش شما با موفقیت ثبت شد!</h4>
+                    <p class="text-muted mb-4" id="orderNumber">شماره سفارش: <span id="orderId">ORD-<span id="orderIdValue"></span></span></p>
+                    <p class="mb-4">جزئیات سفارش به ایمیل شما ارسال شد. شما می‌توانید وضعیت سفارش خود را از طریق پنل کاربری پیگیری کنید.</p>
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-primary" id="trackOrderBtn">پیگیری سفارش</button>
+                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">بازگشت به فروشگاه</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- کانتینر توست -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
@@ -1650,6 +2295,81 @@
     <script>
         // کد جاوااسکریپت برای عملکردهای سایت
         document.addEventListener('DOMContentLoaded', function() {
+            
+            // مدیریت وضعیت کاربر
+            let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+
+            // به‌روزرسانی وضعیت کاربر در صفحه
+            function updateUserStatus() {
+                const userSection = document.getElementById('userSection');
+                const authButtons = document.getElementById('authButtons');
+                const userName = document.getElementById('userName');
+                
+                if (isLoggedIn && currentUser) {
+                    // نمایش بخش پروفایل کاربر
+                    userSection.style.display = 'block';
+                    authButtons.style.display = 'none';
+                    
+                    // تنظیم نام کاربر
+                    if (currentUser.name) {
+                        userName.textContent = currentUser.name;
+                    }
+                } else {
+                    // نمایش دکمه‌های ورود/ثبت‌نام
+                    userSection.style.display = 'none';
+                    authButtons.style.display = 'flex';
+                }
+            }
+
+            // تابع ورود کاربر
+            function loginUser(userData) {
+                isLoggedIn = true;
+                currentUser = {
+                    id: Date.now(),
+                    name: userData.name || 'کاربر',
+                    email: userData.email,
+                    username: userData.username,
+                    joinDate: new Date().toISOString()
+                };
+                
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUserStatus();
+                
+                showToast('ورود موفقیت‌آمیز بود! خوش آمدید ' + currentUser.name, 'success');
+            }
+
+            // تابع خروج کاربر
+            function logoutUser() {
+                isLoggedIn = false;
+                currentUser = null;
+                
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('currentUser');
+                updateUserStatus();
+                
+                showToast('با موفقیت از حساب کاربری خارج شدید', 'info');
+            }
+
+            // رویداد دکمه خروج
+            document.getElementById('logoutBtn')?.addEventListener('click', function() {
+                logoutUser();
+            });
+
+            // تنظیم تب مناسب در مودال احراز هویت
+            document.querySelectorAll('.login-btn, .register-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.classList.contains('login-btn')) {
+                        document.querySelector('#login-tab').click();
+                    } else if (this.classList.contains('register-btn')) {
+                        document.querySelector('#register-tab').click();
+                    }
+                });
+            });
+
+            // بارگذاری اولیه وضعیت کاربر
+            updateUserStatus();
             
             // مدیریت سبد خرید
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -1824,6 +2544,491 @@
                 });
             }
             
+            // بخش تکمیل خرید
+            let currentStep = 1;
+            const totalSteps = 4;
+            let checkoutData = {
+                personalInfo: {},
+                shippingMethod: 'express',
+                paymentMethod: 'online',
+                orderSummary: {}
+            };
+            
+            // دکمه‌های کنترل مراحل
+            const prevStepBtn = document.getElementById('prevStepBtn');
+            const nextStepBtn = document.getElementById('nextStepBtn');
+            const confirmOrderBtn = document.getElementById('confirmOrderBtn');
+            const checkoutModal = document.getElementById('checkoutModal');
+            
+            // تنظیم شماره سفارش تصادفی
+            function generateOrderId() {
+                const timestamp = Date.now().toString().slice(-6);
+                const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+                return `${timestamp}${random}`;
+            }
+            
+            // تغییر مرحله
+            function changeStep(step) {
+                // غیرفعال کردن مرحله فعلی
+                document.querySelector(`#step${currentStep}`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+                
+                // فعال کردن مرحله جدید
+                currentStep = step;
+                document.querySelector(`#step${currentStep}`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+                
+                // به‌روزرسانی مراحل قبلی به حالت تکمیل شده
+                for (let i = 1; i < currentStep; i++) {
+                    document.querySelector(`.step[data-step="${i}"]`).classList.add('completed');
+                }
+                
+                // مدیریت نمایش دکمه‌ها
+                if (currentStep === 1) {
+                    prevStepBtn.style.display = 'none';
+                    nextStepBtn.style.display = 'block';
+                    confirmOrderBtn.style.display = 'none';
+                    nextStepBtn.textContent = 'مرحله بعد';
+                } else if (currentStep === totalSteps) {
+                    prevStepBtn.style.display = 'block';
+                    nextStepBtn.style.display = 'none';
+                    confirmOrderBtn.style.display = 'block';
+                    updateOrderSummary();
+                } else {
+                    prevStepBtn.style.display = 'block';
+                    nextStepBtn.style.display = 'block';
+                    confirmOrderBtn.style.display = 'none';
+                    nextStepBtn.textContent = 'مرحله بعد';
+                }
+            }
+            
+            // رویداد دکمه مرحله بعد
+            nextStepBtn.addEventListener('click', function() {
+                // اعتبارسنجی فرم مرحله فعلی
+                if (currentStep === 1) {
+                    if (!validatePersonalInfo()) {
+                        return;
+                    }
+                    savePersonalInfo();
+                } else if (currentStep === 2) {
+                    saveShippingMethod();
+                } else if (currentStep === 3) {
+                    if (!validatePaymentInfo()) {
+                        return;
+                    }
+                    savePaymentMethod();
+                }
+                
+                // رفتن به مرحله بعد
+                if (currentStep < totalSteps) {
+                    changeStep(currentStep + 1);
+                }
+            });
+            
+            // رویداد دکمه مرحله قبل
+            prevStepBtn.addEventListener('click', function() {
+                if (currentStep > 1) {
+                    changeStep(currentStep - 1);
+                }
+            });
+            
+            // اعتبارسنجی اطلاعات شخصی
+            function validatePersonalInfo() {
+                const form = document.getElementById('personalInfoForm');
+                let isValid = true;
+                
+                // بررسی فیلدهای ضروری
+                const requiredFields = ['firstName', 'lastName', 'phone', 'email', 'address', 'city', 'province', 'postalCode'];
+                
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (!field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('is-invalid');
+                        field.classList.add('is-valid');
+                    }
+                });
+                
+                // بررسی ایمیل
+                const emailField = document.getElementById('email');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailField.value && !emailRegex.test(emailField.value)) {
+                    emailField.classList.add('is-invalid');
+                    isValid = false;
+                }
+                
+                // بررسی شماره تلفن
+                const phoneField = document.getElementById('phone');
+                const phoneRegex = /^09[0-9]{9}$/;
+                if (phoneField.value && !phoneRegex.test(phoneField.value)) {
+                    phoneField.classList.add('is-invalid');
+                    isValid = false;
+                }
+                
+                // بررسی کد پستی
+                const postalField = document.getElementById('postalCode');
+                const postalRegex = /^\d{10}$/;
+                if (postalField.value && !postalRegex.test(postalField.value)) {
+                    postalField.classList.add('is-invalid');
+                    isValid = false;
+                }
+                
+                if (!isValid) {
+                    showToast('لطفا تمام فیلدهای ضروری را به درستی پر کنید', 'error');
+                }
+                
+                return isValid;
+            }
+            
+            // ذخیره اطلاعات شخصی
+            function savePersonalInfo() {
+                checkoutData.personalInfo = {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    phone: document.getElementById('phone').value,
+                    email: document.getElementById('email').value,
+                    address: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    province: document.getElementById('province').value,
+                    postalCode: document.getElementById('postalCode').value,
+                    saveInfo: document.getElementById('saveInfo').checked
+                };
+                
+                // ذخیره در localStorage اگر کاربر خواسته باشد
+                if (checkoutData.personalInfo.saveInfo) {
+                    localStorage.setItem('userShippingInfo', JSON.stringify(checkoutData.personalInfo));
+                }
+            }
+            
+            // ذخیره روش ارسال
+            function saveShippingMethod() {
+                const selectedShipping = document.querySelector('input[name="shippingMethod"]:checked');
+                if (selectedShipping) {
+                    checkoutData.shippingMethod = selectedShipping.value;
+                }
+            }
+            
+            // اعتبارسنجی اطلاعات پرداخت
+            function validatePaymentInfo() {
+                const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+                
+                if (paymentMethod === 'online') {
+                    const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+                    const expiryDate = document.getElementById('expiryDate').value;
+                    const cvv = document.getElementById('cvv').value;
+                    
+                    // اعتبارسنجی شماره کارت (الگوریتم لان)
+                    function isValidCardNumber(number) {
+                        if (!/^\d{16}$/.test(number)) return false;
+                        
+                        let sum = 0;
+                        let isEven = false;
+                        
+                        for (let i = number.length - 1; i >= 0; i--) {
+                            let digit = parseInt(number.charAt(i));
+                            
+                            if (isEven) {
+                                digit *= 2;
+                                if (digit > 9) digit -= 9;
+                            }
+                            
+                            sum += digit;
+                            isEven = !isEven;
+                        }
+                        
+                        return sum % 10 === 0;
+                    }
+                    
+                    // اعتبارسنجی تاریخ انقضا
+                    function isValidExpiryDate(date) {
+                        if (!/^\d{2}\/\d{2}$/.test(date)) return false;
+                        
+                        const [month, year] = date.split('/').map(Number);
+                        const currentYear = new Date().getFullYear() % 100;
+                        const currentMonth = new Date().getMonth() + 1;
+                        
+                        if (month < 1 || month > 12) return false;
+                        if (year < currentYear) return false;
+                        if (year === currentYear && month < currentMonth) return false;
+                        
+                        return true;
+                    }
+                    
+                    // اعتبارسنجی CVV
+                    function isValidCVV(cvv) {
+                        return /^\d{3,4}$/.test(cvv);
+                    }
+                    
+                    let isValid = true;
+                    
+                    if (!isValidCardNumber(cardNumber)) {
+                        document.getElementById('cardNumber').classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        document.getElementById('cardNumber').classList.remove('is-invalid');
+                        document.getElementById('cardNumber').classList.add('is-valid');
+                    }
+                    
+                    if (!isValidExpiryDate(expiryDate)) {
+                        document.getElementById('expiryDate').classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        document.getElementById('expiryDate').classList.remove('is-invalid');
+                        document.getElementById('expiryDate').classList.add('is-valid');
+                    }
+                    
+                    if (!isValidCVV(cvv)) {
+                        document.getElementById('cvv').classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        document.getElementById('cvv').classList.remove('is-invalid');
+                        document.getElementById('cvv').classList.add('is-valid');
+                    }
+                    
+                    if (!isValid) {
+                        showToast('لطفا اطلاعات کارت بانکی را به درستی وارد کنید', 'error');
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+            
+            // ذخیره روش پرداخت
+            function savePaymentMethod() {
+                const selectedPayment = document.querySelector('input[name="paymentMethod"]:checked');
+                if (selectedPayment) {
+                    checkoutData.paymentMethod = selectedPayment.value;
+                }
+            }
+            
+            // به‌روزرسانی خلاصه سفارش
+            function updateOrderSummary() {
+                const orderItemsContainer = document.getElementById('orderItems');
+                const deliveryInfoContainer = document.getElementById('deliveryInfo');
+                
+                // پاک کردن محتوای قبلی
+                orderItemsContainer.innerHTML = '';
+                
+                let subtotal = 0;
+                
+                // افزودن آیتم‌های سفارش
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    subtotal += itemTotal;
+                    
+                    const orderItemHTML = `
+                        <div class="order-item">
+                            <img src="${item.image}" alt="${item.name}">
+                            <div class="order-item-details">
+                                <div class="order-item-name">${item.name}</div>
+                                <div class="order-item-quantity">تعداد: ${item.quantity}</div>
+                            </div>
+                            <div class="order-item-price">${formatPrice(itemTotal)} تومان</div>
+                        </div>
+                    `;
+                    
+                    orderItemsContainer.innerHTML += orderItemHTML;
+                });
+                
+                // محاسبه هزینه ارسال
+                let shippingCost = 0;
+                if (checkoutData.shippingMethod === 'standard') {
+                    shippingCost = 15000;
+                }
+                
+                // محاسبه مالیات (9%)
+                const tax = Math.round(subtotal * 0.09);
+                
+                // محاسبه مجموع نهایی
+                const total = subtotal + shippingCost + tax;
+                
+                // به‌روزرسانی مقادیر
+                document.getElementById('orderSubtotal').textContent = `${formatPrice(subtotal)} تومان`;
+                document.getElementById('orderShipping').textContent = `${formatPrice(shippingCost)} تومان`;
+                document.getElementById('orderTax').textContent = `${formatPrice(tax)} تومان`;
+                document.getElementById('orderTotal').textContent = `${formatPrice(total)} تومان`;
+                
+                // به‌روزرسانی اطلاعات تحویل
+                const deliveryInfoHTML = `
+                    <p><strong>${checkoutData.personalInfo.firstName} ${checkoutData.personalInfo.lastName}</strong></p>
+                    <p>${checkoutData.personalInfo.address}</p>
+                    <p>${checkoutData.personalInfo.city}، ${checkoutData.personalInfo.province}</p>
+                    <p>کد پستی: ${checkoutData.personalInfo.postalCode}</p>
+                    <p>شماره تماس: ${checkoutData.personalInfo.phone}</p>
+                    <p>ایمیل: ${checkoutData.personalInfo.email}</p>
+                `;
+                
+                deliveryInfoContainer.innerHTML = deliveryInfoHTML;
+            }
+            
+            // تایید نهایی سفارش
+            confirmOrderBtn.addEventListener('click', function() {
+                const agreeTermsCheckout = document.getElementById('agreeTermsCheckout');
+                
+                if (!agreeTermsCheckout.checked) {
+                    agreeTermsCheckout.classList.add('is-invalid');
+                    showToast('لطفا با قوانین و شرایط موافقت کنید', 'error');
+                    return;
+                }
+                
+                // ایجاد شماره سفارش
+                const orderId = generateOrderId();
+                document.getElementById('orderIdValue').textContent = orderId;
+                
+                // ذخیره سفارش در localStorage
+                const order = {
+                    id: orderId,
+                    date: new Date().toISOString(),
+                    items: cart,
+                    personalInfo: checkoutData.personalInfo,
+                    shippingMethod: checkoutData.shippingMethod,
+                    paymentMethod: checkoutData.paymentMethod,
+                    total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+                };
+                
+                // ذخیره تاریخچه سفارشات
+                let orders = JSON.parse(localStorage.getItem('orders')) || [];
+                orders.push(order);
+                localStorage.setItem('orders', JSON.stringify(orders));
+                
+                // پاک کردن سبد خرید
+                cart = [];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
+                
+                // بستن مودال تکمیل خرید
+                const checkoutModalInstance = bootstrap.Modal.getInstance(checkoutModal);
+                checkoutModalInstance.hide();
+                
+                // نمایش مودال موفقیت
+                setTimeout(() => {
+                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                    successModal.show();
+                }, 500);
+            });
+            
+            // دکمه پیگیری سفارش
+            document.getElementById('trackOrderBtn').addEventListener('click', function() {
+                // در حالت واقعی به صفحه پیگیری هدایت می‌شود
+                showToast('این بخش در حال توسعه است', 'info');
+            });
+            
+            // بازگشت مراحل خرید به حالت اولیه هنگام بسته شدن مودال
+            checkoutModal.addEventListener('hidden.bs.modal', function() {
+                // بازنشانی مراحل
+                currentStep = 1;
+                
+                // بازنشانی نمایش مراحل
+                document.querySelectorAll('.step').forEach(step => {
+                    step.classList.remove('active', 'completed');
+                });
+                
+                document.querySelector('.step[data-step="1"]').classList.add('active');
+                
+                // بازنشانی محتوای مراحل
+                document.querySelectorAll('.checkout-step').forEach(step => {
+                    step.classList.remove('active');
+                });
+                document.getElementById('step1').classList.add('active');
+                
+                // بازنشانی دکمه‌ها
+                prevStepBtn.style.display = 'none';
+                nextStepBtn.style.display = 'block';
+                confirmOrderBtn.style.display = 'none';
+                nextStepBtn.textContent = 'مرحله بعد';
+                
+                // بازنشانی فرم‌ها
+                document.getElementById('personalInfoForm').reset();
+                document.querySelector('input[name="shippingMethod"][value="express"]').checked = true;
+                document.querySelector('input[name="paymentMethod"][value="online"]').checked = true;
+                document.getElementById('cardNumber').value = '';
+                document.getElementById('expiryDate').value = '';
+                document.getElementById('cvv').value = '';
+                document.getElementById('agreeTermsCheckout').checked = false;
+                
+                // بازنشانی کلاس‌های اعتبارسنجی
+                document.querySelectorAll('.form-control').forEach(input => {
+                    input.classList.remove('is-valid', 'is-invalid');
+                });
+            });
+            
+            // رویداد کلیک روی گزینه‌های ارسال
+            document.querySelectorAll('.shipping-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.shipping-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                });
+            });
+            
+            // رویداد کلیک روی گزینه‌های پرداخت
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.payment-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                    
+                    // نمایش/مخفی کردن بخش اطلاعات کارت
+                    const cardDetails = document.getElementById('cardDetails');
+                    if (radio.value === 'online') {
+                        cardDetails.style.display = 'block';
+                    } else {
+                        cardDetails.style.display = 'none';
+                    }
+                });
+            });
+            
+            // نمایش/مخفی کردن بخش اطلاعات کارت بر اساس انتخاب پرداخت
+            document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const cardDetails = document.getElementById('cardDetails');
+                    if (this.value === 'online') {
+                        cardDetails.style.display = 'block';
+                    } else {
+                        cardDetails.style.display = 'none';
+                    }
+                });
+            });
+            
+            // مدیریت دکمه تکمیل خرید از سبد خرید
+            document.getElementById('checkoutBtn').addEventListener('click', function() {
+                if (cart.length === 0) {
+                    showToast('سبد خرید شما خالی است', 'error');
+                    return;
+                }
+                
+                const cartModalInstance = bootstrap.Modal.getInstance(cartModal);
+                cartModalInstance.hide();
+                
+                // بارگذاری اطلاعات ذخیره شده کاربر اگر وجود دارد
+                const savedInfo = JSON.parse(localStorage.getItem('userShippingInfo'));
+                if (savedInfo) {
+                    document.getElementById('firstName').value = savedInfo.firstName || '';
+                    document.getElementById('lastName').value = savedInfo.lastName || '';
+                    document.getElementById('phone').value = savedInfo.phone || '';
+                    document.getElementById('email').value = savedInfo.email || '';
+                    document.getElementById('address').value = savedInfo.address || '';
+                    document.getElementById('city').value = savedInfo.city || '';
+                    document.getElementById('province').value = savedInfo.province || '';
+                    document.getElementById('postalCode').value = savedInfo.postalCode || '';
+                    document.getElementById('saveInfo').checked = true;
+                }
+                
+                setTimeout(() => {
+                    const checkoutModalInstance = new bootstrap.Modal(checkoutModal);
+                    checkoutModalInstance.show();
+                }, 300);
+            });
+            
             // مدیریت دکمه‌های علاقه‌مندی
             document.querySelectorAll('.wishlist-btn').forEach(button => {
                 button.addEventListener('click', function() {
@@ -1990,9 +3195,20 @@
                     }
                     
                     if (this.checkValidity()) {
-                        showToast('ثبت‌نام موفقیت‌آمیز بود!', 'success');
+                        const name = document.getElementById('registerName').value;
+                        const email = document.getElementById('registerEmail').value;
+                        const username = document.getElementById('registerUsername').value;
                         
-                        // در حالت واقعی اینجا اطلاعات به سرور ارسال می‌شود
+                        // شبیه‌سازی ثبت‌نام کاربر
+                        const userData = {
+                            name: name,
+                            email: email,
+                            username: username
+                        };
+                        
+                        loginUser(userData);
+                        
+                        // بستن مودال
                         const authModal = bootstrap.Modal.getInstance(document.getElementById('authModal'));
                         authModal.hide();
                         
@@ -2008,9 +3224,18 @@
                     e.preventDefault();
                     
                     if (this.checkValidity()) {
-                        showToast('ورود موفقیت‌آمیز بود!', 'success');
+                        const email = document.getElementById('loginEmail').value;
                         
-                        // در حالت واقعی اینجا اطلاعات به سرور ارسال می‌شود
+                        // شبیه‌سازی ورود کاربر
+                        const userData = {
+                            name: 'مهدی آرشی',
+                            email: email,
+                            username: email.split('@')[0]
+                        };
+                        
+                        loginUser(userData);
+                        
+                        // بستن مودال
                         const authModal = bootstrap.Modal.getInstance(document.getElementById('authModal'));
                         authModal.hide();
                         
