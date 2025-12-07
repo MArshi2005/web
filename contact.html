@@ -12,12 +12,71 @@
     <!-- این صفحه نیز از همان استایل صفحه اصلی استفاده می کند -->
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <style>
+        /* استایل‌های اضافی برای بخش کاربری */
+        .user-section .dropdown-toggle {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-section .dropdown-toggle i {
+            font-size: 1.2rem;
+        }
+
+        .user-section .dropdown-menu {
+            min-width: 200px;
+        }
+
+        .user-section .dropdown-item {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-section .dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .user-section .dropdown-divider {
+            margin: 5px 0;
+        }
+
+        .auth-buttons .btn {
+            white-space: nowrap;
+        }
+
+        /* استایل‌های ریسپانسیو */
+        @media (max-width: 768px) {
+            .user-section .dropdown-menu {
+                position: static !important;
+                transform: none !important;
+                margin-top: 10px;
+            }
+            
+            .user-section, .auth-buttons {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .user-section .dropdown-toggle,
+            .auth-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .auth-buttons .btn {
+                margin: 5px 0 !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="skip-link visually-hidden-focusable">رفتن به محتوای اصلی</a>
     
-    <!-- Navigation Header (کپی شده از index.html برای حفظ یکپارچگی) -->
+    <!-- Navigation Header (آپدیت شده با بخش کاربری) -->
     <header class="site-header">
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" role="navigation" aria-label="Main navigation">
             <div class="container">
@@ -64,20 +123,67 @@
                                    placeholder="جستجو..." aria-label="جستجو در محصولات">
                             <div class="search-results" id="searchResults" role="listbox" aria-label="نتایج جستجو"></div>
                         </div>
-                        <div class="user-menu ms-3">
+                        
+                        <!-- بخش کاربر - ابتدا مخفی است -->
+                        <div class="user-section ms-3" id="userSection" style="display: none;">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" 
+                                        data-bs-toggle="dropdown" aria-expanded="false" aria-label="منوی کاربری">
+                                    <i class="fas fa-user-circle me-1"></i>
+                                    <span id="userName">کاربر</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="profile.html">
+                                            <i class="fas fa-user me-2"></i>پروفایل من
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="orders.html">
+                                            <i class="fas fa-shopping-bag me-2"></i>سفارش‌های من
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="wishlist.html">
+                                            <i class="fas fa-heart me-2"></i>لیست علاقه‌مندی‌ها
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="addresses.html">
+                                            <i class="fas fa-map-marker-alt me-2"></i>آدرس‌های من
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="settings.html">
+                                            <i class="fas fa-cog me-2"></i>تنظیمات حساب
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item text-danger" id="logoutBtn">
+                                            <i class="fas fa-sign-out-alt me-2"></i>خروج از حساب
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- دکمه‌های ورود/ثبت‌نام - ابتدا نمایش داده می‌شوند -->
+                        <div class="auth-buttons ms-3" id="authButtons">
                             <button class="btn btn-outline-light login-btn" data-bs-toggle="modal" 
                                     data-bs-target="#authModal" aria-label="ورود به حساب کاربری">
                                 <i class="fas fa-user" aria-hidden="true"></i> ورود
                             </button>
-                            <button class="btn btn-outline-light register-btn" data-bs-toggle="modal" 
+                            <button class="btn btn-outline-light register-btn ms-2" data-bs-toggle="modal" 
                                     data-bs-target="#authModal" aria-label="ثبت‌نام در سایت">
                                 <i class="fas fa-user-plus" aria-hidden="true"></i> ثبت‌نام
                             </button>
                         </div>
+                        
                         <div class="cart-menu ms-3">
                             <button class="btn btn-outline-light position-relative" aria-label="سبد خرید" data-bs-toggle="modal" data-bs-target="#cartModal">
                                 <i class="fas fa-shopping-cart" aria-hidden="true"></i>
-                                <span class="cart-count">0</span>
+                                <span class="cart-count" id="cartCount">0</span>
                                 <span class="visually-hidden">مورد در سبد خرید</span>
                             </button>
                         </div>
@@ -176,7 +282,7 @@
         </section>
     </main>
     
-    <!-- Footer (کپی شده از index.html برای حفظ یکپارچگی) -->
+    <!-- Footer -->
     <footer class="footer bg-dark text-light py-5" id="contact">
         <div class="container">
             <div class="row">
@@ -223,7 +329,7 @@
                         <p><i class="fas fa-phone me-2"></i> تلفن: به زودی</p>
                         <p><i class="fas fa-envelope me-2"></i> ایمیل: Mahdi Arshi.2005@gmail.com</p>
                     </address>
-                    <form class="mt-3">
+                    <form class="mt-3" id="newsletterForm">
                         <div class="input-group">
                             <label for="newsletterEmail" class="visually-hidden">ایمیل خود را وارد کنید</label>
                             <input type="email" class="form-control" id="newsletterEmail" placeholder="ایمیل خود را وارد کنید" required>
@@ -238,7 +344,7 @@
         </div>
     </footer>
 
-    <!-- Authentication Modal (کپی شده از index.html) -->
+    <!-- Authentication Modal -->
     <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -342,7 +448,7 @@
         </div>
     </div>
 
-    <!-- Cart Modal (کپی شده از index.html) -->
+    <!-- Cart Modal -->
     <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -372,6 +478,243 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
+    <script>
+        // کد جاوااسکریپت برای مدیریت وضعیت کاربر
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // مدیریت وضعیت کاربر
+            let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+
+            // به‌روزرسانی وضعیت کاربر در صفحه
+            function updateUserStatus() {
+                const userSection = document.getElementById('userSection');
+                const authButtons = document.getElementById('authButtons');
+                const userName = document.getElementById('userName');
+                
+                if (isLoggedIn && currentUser) {
+                    // نمایش بخش پروفایل کاربر
+                    userSection.style.display = 'block';
+                    authButtons.style.display = 'none';
+                    
+                    // تنظیم نام کاربر
+                    if (currentUser.name) {
+                        userName.textContent = currentUser.name;
+                    }
+                } else {
+                    // نمایش دکمه‌های ورود/ثبت‌نام
+                    userSection.style.display = 'none';
+                    authButtons.style.display = 'flex';
+                }
+            }
+
+            // تابع ورود کاربر
+            function loginUser(userData) {
+                isLoggedIn = true;
+                currentUser = {
+                    id: Date.now(),
+                    name: userData.name || 'کاربر',
+                    email: userData.email,
+                    username: userData.username,
+                    joinDate: new Date().toISOString()
+                };
+                
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUserStatus();
+                
+                showToast('ورود موفقیت‌آمیز بود! خوش آمدید ' + currentUser.name, 'success');
+            }
+
+            // تابع خروج کاربر
+            function logoutUser() {
+                isLoggedIn = false;
+                currentUser = null;
+                
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('currentUser');
+                updateUserStatus();
+                
+                showToast('با موفقیت از حساب کاربری خارج شدید', 'info');
+            }
+
+            // رویداد دکمه خروج
+            document.getElementById('logoutBtn')?.addEventListener('click', function() {
+                logoutUser();
+            });
+
+            // تنظیم تب مناسب در مودال احراز هویت
+            document.querySelectorAll('.login-btn, .register-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.classList.contains('login-btn')) {
+                        document.querySelector('#login-tab').click();
+                    } else if (this.classList.contains('register-btn')) {
+                        document.querySelector('#register-tab').click();
+                    }
+                });
+            });
+
+            // فرمت قیمت
+            function formatPrice(price) {
+                return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            // نمایش توست
+            function showToast(message, type = 'info') {
+                const toastContainer = document.querySelector('.toast-container');
+                const toastId = 'toast-' + Date.now();
+                
+                const toastHTML = `
+                    <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ${message}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="بستن"></button>
+                        </div>
+                    </div>
+                `;
+                
+                toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+                
+                const toastElement = document.getElementById(toastId);
+                const toast = new bootstrap.Toast(toastElement, {
+                    delay: 3000
+                });
+                toast.show();
+                
+                // حذف توست پس از بسته شدن
+                toastElement.addEventListener('hidden.bs.toast', function() {
+                    this.remove();
+                });
+            }
+
+            // مدیریت سبد خرید (مقدار اولیه)
+            const cartCount = document.getElementById('cartCount');
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            function updateCartCount() {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+                cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+            
+            // به‌روزرسانی تعداد سبد خرید در ابتدا
+            updateCartCount();
+
+            // اعتبارسنجی فرم ثبت‌نام
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const password = document.getElementById('registerPassword').value;
+                    const confirmPassword = document.getElementById('confirmPassword').value;
+                    
+                    if (password !== confirmPassword) {
+                        document.getElementById('confirmPassword').classList.add('is-invalid');
+                        return;
+                    }
+                    
+                    if (this.checkValidity()) {
+                        const name = document.getElementById('registerName').value;
+                        const email = document.getElementById('registerEmail').value;
+                        const username = document.getElementById('registerUsername').value;
+                        
+                        // شبیه‌سازی ثبت‌نام کاربر
+                        const userData = {
+                            name: name,
+                            email: email,
+                            username: username
+                        };
+                        
+                        loginUser(userData);
+                        
+                        // بستن مودال
+                        const authModal = bootstrap.Modal.getInstance(document.getElementById('authModal'));
+                        authModal.hide();
+                        
+                        // بازنشانی فرم
+                        this.reset();
+                    }
+                });
+            }
+            
+            // اعتبارسنجی فرم ورود
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    if (this.checkValidity()) {
+                        const email = document.getElementById('loginEmail').value;
+                        
+                        // شبیه‌سازی ورود کاربر
+                        const userData = {
+                            name: 'مهدی عرشی',
+                            email: email,
+                            username: email.split('@')[0]
+                        };
+                        
+                        loginUser(userData);
+                        
+                        // بستن مودال
+                        const authModal = bootstrap.Modal.getInstance(document.getElementById('authModal'));
+                        authModal.hide();
+                        
+                        // بازنشانی فرم
+                        this.reset();
+                    }
+                });
+            }
+
+            // مدیریت فرم تماس
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    if (this.checkValidity()) {
+                        showToast('پیام شما با موفقیت ارسال شد. در اسرع وقت با شما تماس خواهیم گرفت.', 'success');
+                        this.reset();
+                    }
+                });
+            }
+
+            // مدیریت فرم خبرنامه
+            const newsletterForm = document.getElementById('newsletterForm');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('newsletterEmail').value;
+                    showToast(`ایمیل ${email} با موفقیت در خبرنامه ثبت شد`, 'success');
+                    this.reset();
+                });
+            }
+
+            // نمایش/مخفی کردن رمز عبور
+            function setupPasswordToggle(buttonId, inputId) {
+                const toggleButton = document.getElementById(buttonId);
+                const passwordInput = document.getElementById(inputId);
+                
+                if (toggleButton && passwordInput) {
+                    toggleButton.addEventListener('click', function() {
+                        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                        passwordInput.setAttribute('type', type);
+                        this.querySelector('i').classList.toggle('fa-eye');
+                        this.querySelector('i').classList.toggle('fa-eye-slash');
+                    });
+                }
+            }
+            
+            setupPasswordToggle('toggleLoginPassword', 'loginPassword');
+            setupPasswordToggle('toggleRegisterPassword', 'registerPassword');
+            setupPasswordToggle('toggleConfirmPassword', 'confirmPassword');
+
+            // بارگذاری اولیه وضعیت کاربر
+            updateUserStatus();
+        });
+    </script>
 </body>
 </html>

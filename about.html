@@ -5,19 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Mahdi Arshi">
     <title>درباره ما | فروشگاه لپ‌تاپ Mahdi Arshi</title>
-    <meta name="description" content="با فروشگاه لپ‌تاپ Mahdi Arshi بیشتر آشنا شوید. ما در ارائه بهترین و باکیفیت‌ترین لپ‌تاپ‌ها پیشرو هستیم.">
+    <meta name="description" content="درباره فروشگاه لپ‌تاپ Mahdi Arshi: ما با ارائه بهترین لپ‌تاپ‌ها و خدمات پس از فروش، تجربه‌ای متفاوت از خرید اینترنتی را برای شما فراهم کرده‌ایم.">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <!-- این صفحه از همان استایل صفحه اصلی استفاده می کند -->
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <style>
+        /* استایل‌های اضافی برای بخش کاربری */
+        .user-section .dropdown-toggle {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-section .dropdown-toggle i {
+            font-size: 1.2rem;
+        }
+
+        .user-section .dropdown-menu {
+            min-width: 200px;
+        }
+
+        .user-section .dropdown-item {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-section .dropdown-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .user-section .dropdown-divider {
+            margin: 5px 0;
+        }
+
+        .auth-buttons .btn {
+            white-space: nowrap;
+        }
+
+        /* استایل‌های صفحه درباره ما */
+        .about-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .mission-card, .team-card {
+            transition: transform 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+        
+        .mission-card:hover, .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .stats-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stats-item i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        /* استایل‌های ریسپانسیو */
+        @media (max-width: 768px) {
+            .user-section .dropdown-menu {
+                position: static !important;
+                transform: none !important;
+                margin-top: 10px;
+            }
+            
+            .user-section, .auth-buttons {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .user-section .dropdown-toggle,
+            .auth-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .auth-buttons .btn {
+                margin: 5px 0 !important;
+            }
+            
+            .team-member img {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .stats-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="skip-link visually-hidden-focusable">رفتن به محتوای اصلی</a>
     
-    <!-- Navigation Header (کپی شده از index.html برای حفظ یکپارچگی) -->
+    <!-- Navigation Header -->
     <header class="site-header">
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" role="navigation" aria-label="Main navigation">
             <div class="container">
@@ -45,7 +151,7 @@
                                 <li><a class="dropdown-item" href="#">اپل</a></li>
                                 <li><a class="dropdown-item" href="#">لنوو</a></li>
                                 <li><a class="dropdown-item" href="#">ایسوس</a></li>
-                                <li><a class="dropdown-item" href="">اچ‌پی</a></li>
+                                <li><a class="dropdown-item" href="#">اچ‌پی</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">همه برندها</a></li>
                             </ul>
@@ -54,7 +160,7 @@
                             <a class="nav-link" href="contact.html">تماس با ما</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">درباره ما</a>
+                            <a class="nav-link active" aria-current="page" href="about.html">درباره ما</a>
                         </li>
                     </ul>
                     <div class="d-flex align-items-center">
@@ -64,20 +170,67 @@
                                    placeholder="جستجو..." aria-label="جستجو در محصولات">
                             <div class="search-results" id="searchResults" role="listbox" aria-label="نتایج جستجو"></div>
                         </div>
-                        <div class="user-menu ms-3">
+                        
+                        <!-- بخش کاربر - ابتدا مخفی است -->
+                        <div class="user-section ms-3" id="userSection" style="display: none;">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" 
+                                        data-bs-toggle="dropdown" aria-expanded="false" aria-label="منوی کاربری">
+                                    <i class="fas fa-user-circle me-1"></i>
+                                    <span id="userName">کاربر</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="profile.html">
+                                            <i class="fas fa-user me-2"></i>پروفایل من
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="orders.html">
+                                            <i class="fas fa-shopping-bag me-2"></i>سفارش‌های من
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="wishlist.html">
+                                            <i class="fas fa-heart me-2"></i>لیست علاقه‌مندی‌ها
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="addresses.html">
+                                            <i class="fas fa-map-marker-alt me-2"></i>آدرس‌های من
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="settings.html">
+                                            <i class="fas fa-cog me-2"></i>تنظیمات حساب
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item text-danger" id="logoutBtn">
+                                            <i class="fas fa-sign-out-alt me-2"></i>خروج از حساب
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- دکمه‌های ورود/ثبت‌نام - ابتدا نمایش داده می‌شوند -->
+                        <div class="auth-buttons ms-3" id="authButtons">
                             <button class="btn btn-outline-light login-btn" data-bs-toggle="modal" 
                                     data-bs-target="#authModal" aria-label="ورود به حساب کاربری">
                                 <i class="fas fa-user" aria-hidden="true"></i> ورود
                             </button>
-                            <button class="btn btn-outline-light register-btn" data-bs-toggle="modal" 
+                            <button class="btn btn-outline-light register-btn ms-2" data-bs-toggle="modal" 
                                     data-bs-target="#authModal" aria-label="ثبت‌نام در سایت">
                                 <i class="fas fa-user-plus" aria-hidden="true"></i> ثبت‌نام
                             </button>
                         </div>
+                        
                         <div class="cart-menu ms-3">
                             <button class="btn btn-outline-light position-relative" aria-label="سبد خرید" data-bs-toggle="modal" data-bs-target="#cartModal">
                                 <i class="fas fa-shopping-cart" aria-hidden="true"></i>
-                                <span class="cart-count">0</span>
+                                <span class="cart-count" id="cartCount">0</span>
                                 <span class="visually-hidden">مورد در سبد خرید</span>
                             </button>
                         </div>
@@ -90,74 +243,255 @@
     <!-- Main Content -->
     <main id="main-content" class="main-content">
         <!-- Page Header -->
-        <section class="page-header py-5 text-center" style="background: var(--gradient-primary); color: white;">
+        <section class="about-header py-5 text-center text-white">
             <div class="container">
                 <h1 class="display-4 fw-bold">درباره ما</h1>
-                <p class="lead">با فروشگاه لپ‌تاپ Mahdi Arshi بیشتر آشنا شوید</p>
+                <p class="lead">تاریخچه، ماموریت و تیم فروشگاه لپ‌تاپ Mahdi Arshi</p>
             </div>
         </section>
 
         <!-- About Content -->
         <section class="about-content py-5">
             <div class="container">
-                <div class="row align-items-center mb-5">
-                    <div class="col-lg-6">
-                        <h2 class="section-title text-start">داستان ما</h2>
+                <!-- Our Story -->
+                <div class="row mb-5">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h2 class="mb-4">داستان ما</h2>
                         <p class="lead">
-                            فروشگاه لپ‌تاپ Mahdi Arshi در سال ۱۳۹۸ با هدف ارائه بهترین و باکیفیت‌ترین محصولات دیجیتال، با تمرکز ویژه بر لپ‌تاپ‌ها، آغاز به کار کرد. ما باور داریم که تکنولوژی باید در دسترس همه باشد و تجربه خریدی لذت‌بخش و مطمئن را برای مشتریان خود خلق کنیم.
+                            فروشگاه لپ‌تاپ <strong>Mahdi Arshi</strong> در سال ۱۴۰۲ با هدف ارائه بهترین لپ‌تاپ‌ها به مشتریان ایرانی تأسیس شد. ما بر این باوریم که هر فردی شایسته دسترسی به فناوری‌های روز و با کیفیت است.
                         </p>
                         <p>
-                            ما با همکاری نزدیک با برندهای برتر جهانی مانند اپل، لنوو، ایسوس، دل و اچ‌پی، مجموعه‌ای جامع از محصولات را برای پاسخ به نیازهای گوناگون شما، از کارهای روزمره و اداری گرفته تا طراحی حرفه‌ای و گیمینگ قدرتمند، فراهم کرده‌ایم.
+                            در دنیای امروز، لپ‌تاپ تنها یک وسیله نیست، بلکه یک ابزار ضروری برای کار، تحصیل، ارتباطات و سرگرمی است. ما با درک این نیاز، مجموعه‌ای از بهترین لپ‌تاپ‌های بازار را گردآوری کرده‌ایم تا شما بتوانید با خیالی آسوده بهترین انتخاب را داشته باشید.
                         </p>
-                    </div>
-                    <div class="col-lg-6">
-                        <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="داستان ما" class="img-fluid rounded shadow">
                     </div>
                 </div>
-
-                <div class="row align-items-center mb-5">
-                    <div class="col-lg-6 order-lg-2">
-                        <h2 class="section-title text-start">ماموریت و چشم‌انداز ما</h2>
-                        <p class="lead">
-                            <strong>ماموریت ما:</strong> تبدیل شدن به معتبرترین و مورد اعتمادترین فروشگاه لپ‌تاپ در ایران از ارائه محصولات اصلاح، قیمت‌های رقابتی و خدمات پس از فروش بی‌نظیر.
-                        </p>
-                        <p>
-                            <strong>چشم‌انداز ما:</strong> ایجاد پلی بین شما و جدیدترین تکنولوژی‌های روز دنیا و کمک به شما برای انتخاب بهترین ابزار دیجیتال که متناسب با سبک زندگی و نیازهایتان باشد.
-                        </p>
-                    </div>
-                    <div class="col-lg-6 order-lg-1">
-                        <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="ماموریت ما" class="img-fluid rounded shadow">
+                
+                <!-- Stats Section -->
+                <div class="row mb-5">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="row g-4">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="stats-item">
+                                    <i class="fas fa-users text-primary"></i>
+                                    <div class="stats-number" id="customerCount">۲۵۰۰+</div>
+                                    <p>مشتری راضی</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="stats-item">
+                                    <i class="fas fa-laptop text-primary"></i>
+                                    <div class="stats-number" id="productCount">۱۵۰+</div>
+                                    <p>محصول متنوع</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="stats-item">
+                                    <i class="fas fa-shipping-fast text-primary"></i>
+                                    <div class="stats-number" id="deliveryCount">۴۵۰۰+</div>
+                                    <p>تحویل موفق</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="stats-item">
+                                    <i class="fas fa-award text-primary"></i>
+                                    <div class="stats-number">۹۸%</div>
+                                    <p>رضایت مشتری</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
+                
+                <!-- Mission & Vision -->
+                <div class="row mb-5">
+                    <div class="col-lg-6 mb-4">
+                        <div class="mission-card card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <h3 class="card-title h4 mb-3">
+                                    <i class="fas fa-bullseye text-primary me-2"></i>
+                                    ماموریت ما
+                                </h3>
+                                <p class="card-text">
+                                    ماموریت ما ارائه بهترین لپ‌تاپ‌ها با قیمت مناسب و خدمات پس از فروش عالی است. ما متعهدیم:
+                                </p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> تضمین اصالت کالا</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> پشتیبانی ۲۴ ساعته</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> ارسال سریع به سراسر کشور</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> گارانتی معتبر</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i> امکان بازگشت تا ۷ روز</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="mission-card card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <h3 class="card-title h4 mb-3">
+                                    <i class="fas fa-eye text-primary me-2"></i>
+                                    چشم‌انداز ما
+                                </h3>
+                                <p class="card-text">
+                                    چشم‌انداز ما تبدیل شدن به برترین فروشگاه اینترنتی لپ‌تاپ در ایران است. ما می‌خواهیم:
+                                </p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-star text-warning me-2"></i> گسترش تنوع محصولات</li>
+                                    <li class="mb-2"><i class="fas fa-star text-warning me-2"></i> ارائه خدمات به تمام شهرهای ایران</li>
+                                    <li class="mb-2"><i class="fas fa-star text-warning me-2"></i> ایجاد مراکز خدمات پس از فروش در سراسر کشور</li>
+                                    <li class="mb-2"><i class="fas fa-star text-warning me-2"></i> توسعه تیم پشتیبانی تخصصی</li>
+                                    <li><i class="fas fa-star text-warning me-2"></i> راه‌اندازی برنامه‌های وفاداری برای مشتریان</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- Our Values -->
-                <div class="text-center my-5">
-                    <h2 class="section-title">ارزش‌های ما</h2>
-                    <div class="row">
-                        <div class="col-md-4 mb-4">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body text-center">
-                                    <i class="fas fa-certificate fa-3x text-primary mb-3"></i>
-                                    <h5 class="card-title">اصالت کالا</h5>
-                                    <p class="card-text">تضمین ۱۰۰٪ اصالت و سلامت فیزیکی تمامی محصولات.</p>
+                <div class="row mb-5">
+                    <div class="col-lg-10 mx-auto">
+                        <h2 class="text-center mb-4">ارزش‌های ما</h2>
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="text-center p-4">
+                                    <i class="fas fa-handshake fa-3x text-primary mb-3"></i>
+                                    <h4>صداقت و شفافیت</h4>
+                                    <p>همواره با مشتریان خود صادق هستیم و تمام اطلاعات لازم را به شفافیت ارائه می‌دهیم.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center p-4">
+                                    <i class="fas fa-heart fa-3x text-danger mb-3"></i>
+                                    <h4>رضایت مشتری</h4>
+                                    <p>رضایت مشتری اولویت اول ماست و تمام تلاش خود را برای ایجاد تجربه‌ای لذت‌بخش می‌کنیم.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center p-4">
+                                    <i class="fas fa-rocket fa-3x text-success mb-3"></i>
+                                    <h4>توسعه مستمر</h4>
+                                    <p>همواره در حال بهبود خدمات و گسترش محصولات خود هستیم تا بهترین باشیم.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body text-center">
-                                    <i class="fas fa-user-tie fa-3x text-primary mb-3"></i>
-                                    <h5 class="card-title">مشتری مداری</h5>
-                                    <p class="card-text">رضایت شما اولویت اول و اصلی ما در تمامی مراحل است.</p>
+                    </div>
+                </div>
+                
+                <!-- Team Section -->
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <h2 class="text-center mb-4">تیم ما</h2>
+                        <p class="text-center mb-5">تیم متخصص و با تجربه ما همواره آماده ارائه بهترین خدمات به شماست.</p>
+                        
+                        <div class="row g-4">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="team-card card border-0 shadow-sm text-center h-100">
+                                    <div class="card-body p-4">
+                                        <div class="team-member mx-auto mb-3">
+                                            <img src="https://ui-avatars.com/api/?name=Mahdi+Arshi&background=007bff&color=fff&size=150" 
+                                                 class="rounded-circle" alt="Mahdi Arshi">
+                                        </div>
+                                        <h4 class="card-title">مهدی آرشی</h4>
+                                        <p class="text-muted">مدیرعامل و مؤسس</p>
+                                        <p class="card-text">
+                                            با بیش از ۵ سال تجربه در زمینه فروش و خدمات پس از فروش لپ‌تاپ، مسئولیت کلی مدیریت و توسعه کسب‌وکار را بر عهده دارد.
+                                        </p>
+                                        <div class="social-icons mt-3">
+                                            <a href="#" class="text-primary mx-2"><i class="fab fa-linkedin"></i></a>
+                                            <a href="#" class="text-primary mx-2"><i class="fab fa-twitter"></i></a>
+                                            <a href="#" class="text-primary mx-2"><i class="fab fa-instagram"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4 col-md-6">
+                                <div class="team-card card border-0 shadow-sm text-center h-100">
+                                    <div class="card-body p-4">
+                                        <div class="team-member mx-auto mb-3">
+                                            <img src="https://ui-avatars.com/api/?name=Sara+Mohammadi&background=28a745&color=fff&size=150" 
+                                                 class="rounded-circle" alt="Sara Mohammadi">
+                                        </div>
+                                        <h4 class="card-title">سارا محمدی</h4>
+                                        <p class="text-muted">مدیر فروش</p>
+                                        <p class="card-text">
+                                            مسئولیت مدیریت تیم فروش و ارتباط با مشتریان را بر عهده دارد. با تجربه بالا در زمینه مشاوره انتخاب لپ‌تاپ.
+                                        </p>
+                                        <div class="social-icons mt-3">
+                                            <a href="#" class="text-primary mx-2"><i class="fab fa-linkedin"></i></a>
+                                            <a href="#" class="text-primary mx-2"><i class="fab fa-twitter"></i></a>
+                                            <a href="#" class="text-primary mx-2"><i class="fab fa-instagram"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4 col-md-6">
+                                <div class="team-card card border-0 shadow-sm text-center h-100">
+                                    <div class="card-body p-4">
+                                        <div class="team-member mx-auto mb-3">
+                                            <img src="https://ui-avatars.com/api/?name=Ali+Rezaei&background=dc3545&color=fff&size=150" 
+                                                 class="rounded-circle" alt="Ali Rezaei">
+                                        </div>
+                                        <h4 class="card-title">علی رضایی</h4>
+                                        <p class="text-muted">متخصص فنی</p>
+                                        <p class="card-text">
+                                            مسئول بخش فنی و خدمات پس از فروش. با تخصص در عیب‌یابی و تعمیرات لپ‌تاپ‌های مختلف.
+                                        </p>
+                                        <div class="social-icons mt-3">
+                                            <a href="#" class="text-primary mx-2"><i class="fab fa-linkedin"></i></a>
+                                            <a href="#" class="text-primary mx-2"><i class="fab fa-twitter"></i></a>
+                                            <a href="#" class="text-primary mx-2"><i class="fab fa-github"></i></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body text-center">
-                                    <i class="fas fa-rocket fa-3x text-primary mb-3"></i>
-                                    <h5 class="card-title">نوآوری</h5>
-                                    <p class="card-text">همواره در تلاشیم تا جدیدترین محصولات را در سریع‌ترین زمان به شما عرضه کنیم.</p>
+                    </div>
+                </div>
+                
+                <!-- Why Choose Us -->
+                <div class="row mt-5">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <h2 class="text-center mb-4">چرا ما را انتخاب کنید؟</h2>
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <div class="d-flex">
+                                            <i class="fas fa-check-circle text-success fa-2x me-3 mt-1"></i>
+                                            <div>
+                                                <h5>تضمین اصالت کالا</h5>
+                                                <p class="text-muted">تمام محصولات ما دارای گارانتی اصلی و تضمین اصالت هستند.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex">
+                                            <i class="fas fa-check-circle text-success fa-2x me-3 mt-1"></i>
+                                            <div>
+                                                <h5>پشتیبانی ۲۴/۷</h5>
+                                                <p class="text-muted">تیم پشتیبانی ما در تمام ساعات شبانه‌روز آماده پاسخگویی است.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex">
+                                            <i class="fas fa-check-circle text-success fa-2x me-3 mt-1"></i>
+                                            <div>
+                                                <h5>ارسال سریع</h5>
+                                                <p class="text-muted">تحویل سفارشات در کمترین زمان ممکن به سراسر کشور.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex">
+                                            <i class="fas fa-check-circle text-success fa-2x me-3 mt-1"></i>
+                                            <div>
+                                                <h5>امکان بازگشت</h5>
+                                                <p class="text-muted">امکان بازگشت کالا تا ۷ روز پس از تحویل.</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -167,8 +501,8 @@
         </section>
     </main>
     
-    <!-- Footer (کپی شده از index.html برای حفظ یکپارچگی) -->
-    <footer class="footer bg-dark text-light py-5" id="contact">
+    <!-- Footer -->
+    <footer class="footer bg-dark text-light py-5">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-6 mb-4">
@@ -210,11 +544,11 @@
                 <div class="col-lg-4 col-md-6 mb-4">
                     <h5 class="mb-3">اطلاعات تماس</h5>
                     <address>
-                        <p><i class="fas fa-map-marker-alt me-2"></i> گلدشت خیابان آیت ا... ایزدی </p>
+                        <p><i class="fas fa-map-marker-alt me-2"></i> گلدشت، خیابان آیت ا... ایزدی</p>
                         <p><i class="fas fa-phone me-2"></i> تلفن: به زودی</p>
-                        <p><i class="fas fa-envelope me-2"></i> ایمیل: MahdiArshi.2005@gmail.com</p>
+                        <p><i class="fas fa-envelope me-2"></i> ایمیل: mahdiarshi.2005@gmail.com</p>
                     </address>
-                    <form class="mt-3">
+                    <form class="mt-3" id="newsletterForm">
                         <div class="input-group">
                             <label for="newsletterEmail" class="visually-hidden">ایمیل خود را وارد کنید</label>
                             <input type="email" class="form-control" id="newsletterEmail" placeholder="ایمیل خود را وارد کنید" required>
@@ -229,7 +563,7 @@
         </div>
     </footer>
 
-    <!-- Authentication Modal (کپی شده از index.html) -->
+    <!-- Authentication Modal -->
     <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -333,36 +667,9 @@
         </div>
     </div>
 
-    <!-- Cart Modal (کپی شده از index.html) -->
+    <!-- Cart Modal -->
     <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="cartModalLabel">سبد خرید شما</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="cartItems">
-                        <!-- Cart items will be dynamically added here -->
-                    </div>
-                    <div class="cart-total">
-                        <span>جمع کل:</span>
-                        <span id="cartTotal">0 تومان</span>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ادامه خرید</button>
-                    <button type="button" class="btn btn-primary" id="checkoutBtn">تکمیل خرید</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Container -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+                    <h5 class="modal-title" id="
