@@ -117,6 +117,125 @@
                 font-size: 2rem;
             }
         }
+
+        /* استایل‌های اضافی برای احراز هویت */
+        #authModal .modal-content {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        #authModal .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom: none;
+        }
+
+        #authModal .nav-tabs {
+            border-bottom: none;
+        }
+
+        #authModal .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            border: none;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        #authModal .nav-link.active {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            border: none;
+        }
+
+        #authModal .nav-link:hover {
+            color: white;
+        }
+
+        .password-input .input-group-text {
+            cursor: pointer;
+            background-color: #f8f9fa;
+            border-left: none;
+        }
+
+        .password-input .form-control {
+            border-right: none;
+        }
+
+        .password-input .input-group {
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        /* استایل برای اعتبارسنجی */
+        .form-control.is-valid, .was-validated .form-control:valid {
+            border-color: #28a745;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+        }
+
+        .form-control.is-invalid, .was-validated .form-control:invalid {
+            border-color: #dc3545;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+        }
+
+        /* استایل toast */
+        .custom-toast {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+        }
+
+        .bg-success {
+            background-color: #28a745 !important;
+        }
+
+        .bg-warning {
+            background-color: #ffc107 !important;
+        }
+
+        .bg-info {
+            background-color: #17a2b8 !important;
+        }
+
+        .bg-error {
+            background-color: #dc3545 !important;
+        }
+
+        /* استایل user section */
+        #userSection .dropdown-toggle {
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #userSection .dropdown-menu {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .auth-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .auth-buttons .btn {
+                margin: 2px 0 !important;
+                width: 100%;
+            }
+            
+            #userSection .dropdown-menu {
+                position: static !important;
+                transform: none !important;
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -390,7 +509,7 @@
                                             <img src="https://ui-avatars.com/api/?name=Mahdi+Arshi&background=007bff&color=fff&size=150" 
                                                  class="rounded-circle" alt="Mahdi Arshi">
                                         </div>
-                                        <h4 class="card-title">مهدی آرشی</h4>
+                                        <h4 class="card-title">مهدی عرشی</h4>
                                         <p class="text-muted">مدیرعامل و مؤسس</p>
                                         <p class="card-text">
                                             با بیش از ۵ سال تجربه در زمینه فروش و خدمات پس از فروش لپ‌تاپ، مسئولیت کلی مدیریت و توسعه کسب‌وکار را بر عهده دارد.
@@ -672,4 +791,605 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="
+                    <h5 class="modal-title" id="cartModalLabel">سبد خرید</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cartItems">
+                        <p class="text-center text-muted">سبد خرید شما خالی است</p>
+                    </div>
+                    <div class="cart-summary mt-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>تعداد کالا:</span>
+                            <span id="cartTotalItems">0</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>مجموع:</span>
+                            <span id="cartTotalPrice">0 تومان</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ادامه خرید</button>
+                    <button type="button" class="btn btn-primary" id="checkoutBtn">پرداخت</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // =========================
+        // SHORTCUTS
+        // =========================
+        const $ = s => document.querySelector(s);
+        const $$ = s => document.querySelectorAll(s);
+
+        // =========================
+        // USER AUTH (REGISTER / LOGIN) - UPDATED
+        // =========================
+        function registerUser() {
+            const name = $("#registerName");
+            const email = $("#registerEmail");
+            const username = $("#registerUsername");
+            const password = $("#registerPassword");
+            const confirmPassword = $("#confirmPassword");
+            const agreeTerms = $("#agreeTerms");
+
+            if (!username || !password || !confirmPassword) {
+                showToast("فیلدها پیدا نشدند!", "error");
+                return false;
+            }
+
+            const fullName = name?.value?.trim() || "";
+            const userEmail = email?.value?.trim() || "";
+            const user = username.value.trim();
+            const pass = password.value.trim();
+            const confirmPass = confirmPassword.value.trim();
+
+            // اعتبارسنجی
+            if (!fullName) {
+                showToast("لطفاً نام و نام خانوادگی را وارد کنید", "warning");
+                return false;
+            }
+            if (!userEmail || !userEmail.includes('@')) {
+                showToast("لطفاً ایمیل معتبر وارد کنید", "warning");
+                return false;
+            }
+            if (!user) {
+                showToast("لطفاً نام کاربری را وارد کنید", "warning");
+                return false;
+            }
+            if (!pass) {
+                showToast("لطفاً رمز عبور را وارد کنید", "warning");
+                return false;
+            }
+            if (pass.length < 8) {
+                showToast("رمز عبور باید حداقل ۸ کاراکتر باشد", "warning");
+                return false;
+            }
+            if (pass !== confirmPass) {
+                showToast("رمز عبور و تکرار آن یکسان نیست", "warning");
+                return false;
+            }
+            if (!agreeTerms || !agreeTerms.checked) {
+                showToast("لطفاً با قوانین موافقت کنید", "warning");
+                return false;
+            }
+
+            // بررسی وجود کاربر
+            const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+            if (users.some(u => u.username === user)) {
+                showToast("این نام کاربری قبلاً ثبت شده است", "warning");
+                return false;
+            }
+            
+            if (users.some(u => u.email === userEmail)) {
+                showToast("این ایمیل قبلاً ثبت شده است", "warning");
+                return false;
+            }
+
+            // ایجاد کاربر جدید
+            const newUser = {
+                id: Date.now(),
+                name: fullName,
+                email: userEmail,
+                username: user,
+                password: pass,
+                registrationDate: new Date().toISOString(),
+                isAdmin: false
+            };
+
+            users.push(newUser);
+            localStorage.setItem("users", JSON.stringify(users));
+
+            // ورود خودکار
+            localStorage.setItem("loggedInUser", JSON.stringify({
+                username: user,
+                name: fullName,
+                email: userEmail
+            }));
+
+            // به‌روزرسانی UI
+            updateUserUI();
+            
+            // بستن مودال
+            const authModal = bootstrap.Modal.getInstance($("#authModal"));
+            if (authModal) authModal.hide();
+
+            // نمایش پیام
+            showToast("ثبت نام با موفقیت انجام شد! خوش آمدید " + fullName, "success");
+            
+            // بازنشانی فرم
+            if ($("#registerForm")) {
+                $("#registerForm").reset();
+                $("#registerForm").classList.remove("was-validated");
+            }
+
+            return true;
+        }
+
+        function loginUser() {
+            const emailInput = $("#loginEmail");
+            const passwordInput = $("#loginPassword");
+            const rememberMe = $("#rememberMe");
+
+            if (!emailInput || !passwordInput) {
+                showToast("فیلدها پیدا نشدند!", "error");
+                return false;
+            }
+
+            const emailOrUsername = emailInput.value.trim();
+            const pass = passwordInput.value.trim();
+
+            if (!emailOrUsername || !pass) {
+                showToast("لطفاً همه فیلدها را پر کنید", "warning");
+                return false;
+            }
+
+            const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+            // جستجوی کاربر با ایمیل یا نام کاربری
+            const found = users.find(u => 
+                (u.email === emailOrUsername || u.username === emailOrUsername) && 
+                u.password === pass
+            );
+
+            if (!found) {
+                showToast("ایمیل/نام کاربری یا رمز عبور اشتباه است", "error");
+                return false;
+            }
+
+            // ذخیره اطلاعات ورود
+            const userData = {
+                username: found.username,
+                name: found.name,
+                email: found.email,
+                id: found.id,
+                isAdmin: found.isAdmin || false
+            };
+
+            localStorage.setItem("loggedInUser", JSON.stringify(userData));
+            
+            if (rememberMe && rememberMe.checked) {
+                localStorage.setItem("rememberLogin", "true");
+            }
+
+            // به‌روزرسانی UI
+            updateUserUI();
+            
+            // بستن مودال
+            const authModal = bootstrap.Modal.getInstance($("#authModal"));
+            if (authModal) authModal.hide();
+
+            // نمایش پیام
+            showToast("ورود موفقیت آمیز! خوش آمدید " + found.name, "success");
+            
+            // بازنشانی فرم
+            if ($("#loginForm")) {
+                $("#loginForm").reset();
+                $("#loginForm").classList.remove("was-validated");
+            }
+
+            return true;
+        }
+
+        function logoutUser() {
+            localStorage.removeItem("loggedInUser");
+            updateUserUI();
+            showToast("با موفقیت از حساب کاربری خارج شدید", "info");
+        }
+
+        // =========================
+        // USER UI MANAGEMENT
+        // =========================
+        function updateUserUI() {
+            const userSection = $("#userSection");
+            const authButtons = $("#authButtons");
+            const userNameElement = $("#userName");
+            const logoutBtn = $("#logoutBtn");
+
+            if (!userSection || !authButtons) return;
+
+            const userData = JSON.parse(localStorage.getItem("loggedInUser") || "null");
+
+            if (userData) {
+                // کاربر وارد شده
+                userSection.style.display = "block";
+                authButtons.style.display = "none";
+                
+                if (userNameElement) {
+                    userNameElement.textContent = userData.name || userData.username || "کاربر";
+                }
+
+                // اضافه کردن event listener برای دکمه خروج
+                if (logoutBtn) {
+                    logoutBtn.onclick = logoutUser;
+                }
+            } else {
+                // کاربر وارد نشده
+                userSection.style.display = "none";
+                authButtons.style.display = "flex";
+            }
+        }
+
+        // =========================
+        // PASSWORD TOGGLE
+        // =========================
+        function initPasswordToggles() {
+            // دکمه‌های اختصاصی در مودال
+            ["#toggleLoginPassword", "#toggleRegisterPassword", "#toggleConfirmPassword"].forEach(selector => {
+                const btn = $(selector);
+                if (btn) {
+                    btn.addEventListener("click", function() {
+                        let inputId;
+                        if (this.id === "toggleLoginPassword") {
+                            inputId = "loginPassword";
+                        } else if (this.id === "toggleRegisterPassword") {
+                            inputId = "registerPassword";
+                        } else if (this.id === "toggleConfirmPassword") {
+                            inputId = "confirmPassword";
+                        }
+                        
+                        const input = $(`#${inputId}`);
+                        const icon = this.querySelector("i");
+                        
+                        if (input && icon) {
+                            if (input.type === "password") {
+                                input.type = "text";
+                                icon.className = "fas fa-eye-slash";
+                                this.setAttribute("aria-label", "مخفی کردن رمز عبور");
+                            } else {
+                                input.type = "password";
+                                icon.className = "fas fa-eye";
+                                this.setAttribute("aria-label", "نمایش رمز عبور");
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        // =========================
+        // FORM VALIDATION
+        // =========================
+        function initFormValidation() {
+            const loginForm = $("#loginForm");
+            const registerForm = $("#registerForm");
+
+            // فرم ورود
+            if (loginForm) {
+                loginForm.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    if (this.checkValidity()) {
+                        loginUser();
+                    }
+                    
+                    this.classList.add("was-validated");
+                });
+            }
+
+            // فرم ثبت‌نام
+            if (registerForm) {
+                // اعتبارسنجی بلادرنگ تکرار رمز
+                const passwordInput = $("#registerPassword");
+                const confirmInput = $("#confirmPassword");
+                
+                if (passwordInput && confirmInput) {
+                    confirmInput.addEventListener("input", function() {
+                        if (this.value !== passwordInput.value) {
+                            this.classList.add("is-invalid");
+                            this.classList.remove("is-valid");
+                        } else {
+                            this.classList.remove("is-invalid");
+                            this.classList.add("is-valid");
+                        }
+                    });
+                }
+
+                registerForm.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // اعتبارسنجی تکرار رمز
+                    if (passwordInput && confirmInput && passwordInput.value !== confirmInput.value) {
+                        confirmInput.classList.add("is-invalid");
+                        return;
+                    }
+
+                    if (this.checkValidity()) {
+                        registerUser();
+                    }
+                    
+                    this.classList.add("was-validated");
+                });
+            }
+        }
+
+        // =========================
+        // TOAST NOTIFICATION
+        // =========================
+        function showToast(message, type = "info") {
+            // حذف toastهای قبلی
+            $$(".custom-toast").forEach(toast => toast.remove());
+
+            const toastEl = document.createElement("div");
+            toastEl.className = `custom-toast toast align-items-center text-white bg-${type} border-0 position-fixed`;
+            toastEl.setAttribute("role", "alert");
+            toastEl.style.cssText = `
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 9999;
+                min-width: 300px;
+            `;
+
+            toastEl.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} me-2"></i>
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
+
+            document.body.appendChild(toastEl);
+
+            // ایجاد آبجکت toast
+            const toast = new bootstrap.Toast(toastEl, {
+                animation: true,
+                autohide: true,
+                delay: 3000
+            });
+            
+            toast.show();
+
+            toastEl.addEventListener("hidden.bs.toast", function() {
+                this.remove();
+            });
+        }
+
+        // =========================
+        // CART SYSTEM
+        // =========================
+        const loadCart = () =>
+            JSON.parse(localStorage.getItem("cart") || "[]");
+
+        const saveCart = cart =>
+            localStorage.setItem("cart", JSON.stringify(cart));
+
+        function updateCartCount() {
+            const cartCount = $("#cartCount");
+            if (cartCount) {
+                const cart = loadCart();
+                const totalItems = cart.reduce((sum, item) => sum + (item.qty || 0), 0);
+                cartCount.textContent = totalItems;
+                cartCount.style.display = totalItems > 0 ? "inline-block" : "none";
+            }
+        }
+
+        function updateCartModal() {
+            const cartItemsContainer = $("#cartItems");
+            const cartTotalItems = $("#cartTotalItems");
+            const cartTotalPrice = $("#cartTotalPrice");
+            
+            if (!cartItemsContainer) return;
+            
+            const cart = loadCart();
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="text-center text-muted">سبد خرید شما خالی است</p>';
+                if (cartTotalItems) cartTotalItems.textContent = "0";
+                if (cartTotalPrice) cartTotalPrice.textContent = "0 تومان";
+                return;
+            }
+            
+            let itemsHTML = "";
+            let totalItems = 0;
+            let totalPrice = 0;
+            
+            cart.forEach(item => {
+                totalItems += item.qty || 1;
+                totalPrice += (item.price || 0) * (item.qty || 1);
+                
+                itemsHTML += `
+                    <div class="cart-item d-flex align-items-center mb-3">
+                        <img src="${item.img || 'https://via.placeholder.com/80'}" alt="${item.name}" class="rounded" width="80" height="80">
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-1">${item.name}</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span>${item.price.toLocaleString()} تومان</span>
+                                    <span class="text-muted mx-2">×</span>
+                                    <span>${item.qty || 1}</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline-danger remove-from-cart" data-id="${item.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            cartItemsContainer.innerHTML = itemsHTML;
+            if (cartTotalItems) cartTotalItems.textContent = totalItems;
+            if (cartTotalPrice) cartTotalPrice.textContent = totalPrice.toLocaleString() + " تومان";
+            
+            // اضافه کردن event listener برای دکمه‌های حذف
+            $$(".remove-from-cart").forEach(btn => {
+                btn.addEventListener("click", function() {
+                    const id = this.getAttribute("data-id");
+                    removeFromCart(id);
+                });
+            });
+        }
+
+        function addToCart(id, name, price, img) {
+            // بررسی ورود کاربر
+            const user = JSON.parse(localStorage.getItem("loggedInUser") || "null");
+            if (!user) {
+                showToast("لطفاً ابتدا وارد حساب کاربری خود شوید", "warning");
+                return false;
+            }
+
+            const cart = loadCart();
+            const item = cart.find(x => x.id === id);
+
+            if (item) {
+                item.qty = (item.qty || 1) + 1;
+            } else {
+                cart.push({
+                    id,
+                    name,
+                    price: Number(price),
+                    img,
+                    qty: 1
+                });
+            }
+
+            saveCart(cart);
+            updateCartCount();
+            updateCartModal();
+            showToast(`${name} به سبد خرید اضافه شد`, "success");
+            return true;
+        }
+
+        function removeFromCart(id) {
+            let cart = loadCart();
+            cart = cart.filter(x => x.id !== id);
+            saveCart(cart);
+            updateCartCount();
+            updateCartModal();
+            showToast("محصول از سبد خرید حذف شد", "info");
+        }
+
+        // =========================
+        // SEARCH FUNCTIONALITY
+        // =========================
+        function initSearch() {
+            const searchInput = $("#searchInput");
+            const searchResults = $("#searchResults");
+            
+            if (!searchInput || !searchResults) return;
+            
+            searchInput.addEventListener("input", function() {
+                const query = this.value.trim().toLowerCase();
+                
+                if (query.length < 2) {
+                    searchResults.style.display = "none";
+                    return;
+                }
+                
+                // اینجا می‌توانید داده‌های واقعی محصولات را جستجو کنید
+                const mockProducts = [
+                    { id: 1, name: "لپ‌تاپ ایسوس", price: "۲۵,۰۰۰,۰۰۰", category: "ایسوس" },
+                    { id: 2, name: "لپ‌تاپ لنوو", price: "۳۰,۰۰۰,۰۰۰", category: "لنوو" },
+                    { id: 3, name: "لپ‌تاپ اپل", price: "۵۰,۰۰۰,۰۰۰", category: "اپل" },
+                    { id: 4, name: "لپ‌تاپ اچ‌پی", price: "۲۲,۰۰۰,۰۰۰", category: "اچ‌پی" }
+                ];
+                
+                const filtered = mockProducts.filter(product => 
+                    product.name.toLowerCase().includes(query) || 
+                    product.category.toLowerCase().includes(query)
+                );
+                
+                if (filtered.length > 0) {
+                    let resultsHTML = "";
+                    filtered.forEach(product => {
+                        resultsHTML += `
+                            <div class="search-result-item p-2 border-bottom">
+                                <a href="#" class="text-decoration-none text-dark d-block">
+                                    <div class="fw-bold">${product.name}</div>
+                                    <small class="text-muted">${product.category} - ${product.price} تومان</small>
+                                </a>
+                            </div>
+                        `;
+                    });
+                    
+                    searchResults.innerHTML = resultsHTML;
+                    searchResults.style.display = "block";
+                } else {
+                    searchResults.innerHTML = '<div class="p-2 text-muted">محصولی یافت نشد</div>';
+                    searchResults.style.display = "block";
+                }
+            });
+            
+            // مخفی کردن نتایج هنگام کلیک خارج
+            document.addEventListener("click", function(e) {
+                if (!searchResults.contains(e.target) && e.target !== searchInput) {
+                    searchResults.style.display = "none";
+                }
+            });
+        }
+
+        // =========================
+        // INITIALIZE EVERYTHING
+        // =========================
+        document.addEventListener("DOMContentLoaded", () => {
+            // مقداردهی اولیه
+            initPasswordToggles();
+            initFormValidation();
+            initSearch();
+            updateUserUI();
+            updateCartCount();
+            updateCartModal();
+            
+            // اطمینان از لود شدن Bootstrap
+            if (typeof bootstrap === 'undefined') {
+                console.warn("Bootstrap JS بارگذاری نشده است!");
+            }
+            
+            // رخداددهی دکمه‌های ورود/ثبت‌نام
+            $$(".login-btn, .register-btn").forEach(btn => {
+                btn.addEventListener("click", function() {
+                    const tab = this.classList.contains("login-btn") ? "login" : "register";
+                    const tabElement = $(`#${tab}-tab`);
+                    if (tabElement) {
+                        const tabInstance = new bootstrap.Tab(tabElement);
+                        tabInstance.show();
+                    }
+                });
+            });
+            
+            // رخداددهی مودال سبد خرید
+            const cartModal = $("#cartModal");
+            if (cartModal) {
+                cartModal.addEventListener("show.bs.modal", updateCartModal);
+            }
+            
+            console.log("سیستم احراز هویت و سبد خرید بارگذاری شد");
+        });
+    </script>
+    <!-- اسکریپت‌های اصلی -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./script.js"></script>
+</body>
+</html>
