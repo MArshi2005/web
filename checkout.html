@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسویه حساب - فروشگاه لپ‌تاپ Mahdi Arshi</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <!-- Navigation Header (کپی شده از صفحات دیگر) -->
+    <header class="site-header">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" role="navigation" aria-label="Main navigation">
+            <div class="container">
+                <a class="navbar-brand" href="index.html" aria-label="صفحه اصلی فروشگاه لپ‌تاپ Mahdi Arshi">
+                    <i class="fas fa-laptop" aria-hidden="true"></i> لپ‌تاپ Mahdi Arshi
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="تغییر وضعیت منو">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">خانه</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html#products">محصولات</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.html">درباره ما</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.html">تماس با ما</a></li>
+                    </ul>
+                    <div class="d-flex align-items-center">
+                        <div class="cart-menu ms-3">
+                            <button class="btn btn-outline-light position-relative" aria-label="سبد خرید" data-bs-toggle="modal" data-bs-target="#cartModal">
+                                <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                                <span class="cart-count">0</span>
+                                <span class="visually-hidden">مورد در سبد خرید</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content container my-5">
+        <div class="row">
+            <!-- Order Summary -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">خلاصه سفارش شما</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="checkoutSummary">
+                            <!-- خلاصه سفارش به صورت داینامیک توسط جاوا اسکریپت اینجا اضافه می‌شود -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checkout Form -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">اطلاعات ارسال</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="checkoutForm">
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label">نام و نام خانوادگی</label>
+                                <input type="text" class="form-control" id="fullName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">ایمیل</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">شماره تلفن</label>
+                                <input type="tel" class="form-control" id="phone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">آدرس</label>
+                                <textarea class="form-control" id="address" rows="3" required></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="city" class="form-label">شهر</label>
+                                    <input type="text" class="form-control" id="city" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="postalCode" class="form-label">کد پستی</label>
+                                    <input type="text" class="form-control" id="postalCode">
+                                </div>
+                            </div>
+                            <hr>
+                            <h6>روش پرداخت</h6>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="payOnline" value="online" checked>
+                                <label class="form-check-label" for="payOnline">پرداخت آنلاین</label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="payOnDelivery" value="on_delivery">
+                                <label class="form-check-label" for="payOnDelivery">پرداخت در محل (پس از تحویل)</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg w-100" id="placeOrderBtn">ثبت سفارش</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    <!-- Footer (کپی شده از صفحات دیگر) -->
+    <footer class="footer bg-dark text-light py-5">
+        <div class="container">
+            <div class="copyright text-center">
+                <p>&copy; ۱۴۰۲ فروشگاه لپ‌تاپ Mahdi Arshi. تمامی حقوق محفوظ است.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Modal (کپی شده از index.html) -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">سبد خرید شما</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cartItems"></div>
+                    <div class="cart-total">
+                        <span>جمع کل:</span>
+                        <span id="cartTotal">0 تومان</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ادامه خرید</button>
+                    <button type="button" class="btn btn-primary" id="checkoutBtn">تکمیل خرید</button>
+                </div>
+            </div>
+        </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, <meta name="author" content="Mahdi Arshi">
+    <title>تسویه حساب - فروشگاه لپ‌تاپ Mahdi Arshi</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <!-- Navigation Header (کپی شده از صفحات دیگر) -->
+    <header class="site-header">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" role="navigation" aria-label="Main navigation">
+            <div class="container">
+                <a class="navbar-brand" href="index.html" aria-label="صفحه اصلی فروشگاه لپ‌تاپ Mahdi Arshi">
+                    <i class="fas fa-laptop" aria-hidden="true"></i> لپ‌تاپ Mahdi Arshi
+                </a>
+                <!-- ... بقی بخش ناوبر ... -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content container my-5">
+        <div class="row">
+            <!-- Order Summary -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h3>خلاصه سفارش شما</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="checkoutSummary">
+                            <!-- خلاصه سفارش در اینجا نمایش داده می‌شود -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white text-center">
+                        <h3>اطلاعات ارسال</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>لطفاً اطلاعات ارسال و آدرس خود را وارد کنید.</p>
+                        <form id="checkoutForm">
+                            <!-- فیلدهای فرم تسویه حساب در اینجا قرار دارد -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (کپی شده از صفحات دیگر) -->
+    <footer class="footer bg-dark text-light py-5">
+        <div class="container">
+            <div class="copyright text-center">
+                <p>&copy; ۱۴۰۲ فروشگاه لپ‌تاپ Mahdi Arshi. تمامی حقوق محفوظ است.</p>
+            </div>
+        </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
