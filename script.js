@@ -138,10 +138,6 @@ function initFilters() {
         });
     });
 }
-
-// =========================
-// PAGE INITIALIZATION
-// =========================
 document.addEventListener("DOMContentLoaded", () => {
     initAddToCartButtons();
     initFilters();
