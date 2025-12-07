@@ -18,12 +18,49 @@
     <meta property="og:url" content="https://mahdilaptop.ir">
     <meta property="og:type" content="website">
     
-    <!-- TODO: Add Persian Font (Vazirmatn) for better readability -->
+    <!-- فونت وزیرمتن برای نمایش بهتر فارسی -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap');
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Vazirmatn', sans-serif;
+            padding-top: 70px; /* برای نوار ناوبری ثابت */
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: #007bff;
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            text-decoration: none;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        .visually-hidden-focusable:not(:focus):not(:focus-within) {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
+
+        .navbar {
+            background-color: #343a40 !important;
         }
 
         .cart-count {
@@ -91,34 +128,417 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            border-radius: 3px;
+        }
+        
+        .quantity-btn:hover {
+            background: #e9ecef;
         }
         
         .quantity-value {
             margin: 0 10px;
+            min-width: 30px;
+            text-align: center;
         }
         
         .cart-total {
             padding: 15px 0;
-            border-top: 1px solid #eee;
+            border-top: 2px solid #dee2e6;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
+            font-size: 1.2rem;
         }
         
         .empty-cart {
             text-align: center;
-            padding: 20px;
+            padding: 40px 20px;
             color: #6c757d;
+        }
+        
+        .empty-cart i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #adb5bd;
+        }
+        
+        /* استایل‌های محصولات */
+        .product-item .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #dee2e6;
+            overflow: hidden;
+        }
+        
+        .product-item .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 1;
+        }
+        
+        .card-img-container {
+            height: 200px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+        }
+        
+        .card-img-container img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        
+        .product-item .card:hover .card-img-container img {
+            transform: scale(1.05);
+        }
+        
+        .old-price {
+            text-decoration: line-through;
+            color: #6c757d;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: #dc3545;
+            font-size: 1.1rem;
+        }
+        
+        .rating {
+            color: #ffc107;
+        }
+        
+        .specs-summary .badge {
+            margin-left: 5px;
+            margin-bottom: 5px;
+            font-weight: normal;
+        }
+        
+        /* استایل‌های نظرات */
+        .review-section {
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        
+        .review-toggle {
+            font-weight: bold;
+            color: #007bff;
+            cursor: pointer;
+            list-style: none;
+        }
+        
+        .review-toggle::-webkit-details-marker {
+            display: none;
+        }
+        
+        .review-toggle:before {
+            content: '+ ';
+        }
+        
+        .review-section[open] .review-toggle:before {
+            content: '- ';
+        }
+        
+        .review {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .review-author {
+            font-weight: bold;
+        }
+        
+        .review-date {
+            color: #6c757d;
+        }
+        
+        .review-rating {
+            color: #ffc107;
+            margin-bottom: 5px;
+        }
+        
+        .review-text {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+        
+        .add-review {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        
+        /* استایل‌های فیلترها */
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+        
+        .product-filters {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 15px;
+        }
+        
+        .product-filters:last-child {
+            border-bottom: none;
+        }
+        
+        .filter-title {
+            background: none;
+            border: none;
+            padding: 10px 0;
+            font-weight: bold;
+            color: #495057;
+            cursor: pointer;
+        }
+        
+        .filter-title:hover {
+            color: #007bff;
+        }
+        
+        .filter-title i {
+            transition: transform 0.3s ease;
+        }
+        
+        .filter-title[aria-expanded="true"] i {
+            transform: rotate(180deg);
+        }
+        
+        .filter-content {
+            padding: 10px 0;
+        }
+        
+        .price-range {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .price-range label {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        /* استایل‌های قهرمان */
+        .carousel-item {
+            height: 400px;
+        }
+        
+        .carousel-item img {
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .carousel-caption {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+        }
+        
+        /* استایل‌های ویژگی‌ها */
+        .features-section {
+            background-color: #f8f9fa;
+        }
+        
+        .feature-box {
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* استایل‌های فوتر */
+        .footer {
+            background-color: #212529 !important;
+        }
+        
+        .footer-links a {
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #007bff !important;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: #007bff;
+            transform: translateY(-3px);
+        }
+        
+        /* استایل‌های موبایل */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            
+            .carousel-item {
+                height: 250px;
+            }
+            
+            .carousel-caption h5 {
+                font-size: 1rem;
+            }
+            
+            .carousel-caption p {
+                font-size: 0.8rem;
+                display: none;
+            }
+            
+            .hero-section {
+                margin-top: 10px;
+            }
+            
+            .product-sort {
+                width: 100%;
+                margin-top: 10px;
+            }
+            
+            .product-sort select {
+                width: 100%;
+            }
+            
+            .d-flex.justify-content-between.align-items-center.mb-3 {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+        }
+        
+        /* استایل‌های جستجو */
+        .search-box {
+            position: relative;
+        }
+        
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .search-result-item {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .search-result-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .search-result-image {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            margin-left: 10px;
+        }
+        
+        /* استایل‌های صفحه‌بندی */
+        .pagination .page-link {
+            color: #495057;
+            border: 1px solid #dee2e6;
+        }
+        
+        .pagination .page-item.active .page-link {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        
+        /* استایل‌های مودال */
+        .modal-header .nav-tabs {
+            border-bottom: none;
+            width: 100%;
+        }
+        
+        .modal-header .nav-link {
+            color: #495057;
+            border: none;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .modal-header .nav-link.active {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            background-color: transparent;
+        }
+        
+        .password-input .input-group .btn {
+            border-color: #ced4da;
         }
     </style>
 </head>
 <body>
-    <!-- Skip to main content for accessibility -->
+    <!-- لینک پرش به محتوای اصلی برای دسترسی‌پذیری -->
     <a href="#main-content" class="skip-link visually-hidden-focusable">رفتن به محتوای اصلی</a>
     
-    <!-- Navigation Header -->
+    <!-- هدر ناوبری -->
     <header class="site-header">
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" role="navigation" aria-label="Main navigation">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation" aria-label="ناوبری اصلی">
             <div class="container">
                 <a class="navbar-brand" href="index.html" aria-label="صفحه اصلی فروشگاه لپ‌تاپ Mahdi Arshi">
                     <i class="fas fa-laptop" aria-hidden="true"></i> لپ‌تاپ Mahdi Arshi
@@ -141,12 +561,13 @@
                                 برندها
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">اپل</a></li>
-                                <li><a class="dropdown-item" href="#">لنوو</a></li>
-                                <li><a class="dropdown-item" href="#">ایسوس</a></li>
-                                <li><a class="dropdown-item" href="">اچ‌پی</a></li>
+                                <li><a class="dropdown-item" href="#" data-brand="apple">اپل</a></li>
+                                <li><a class="dropdown-item" href="#" data-brand="lenovo">لنوو</a></li>
+                                <li><a class="dropdown-item" href="#" data-brand="asus">ایسوس</a></li>
+                                <li><a class="dropdown-item" href="#" data-brand="hp">اچ‌پی</a></li>
+                                <li><a class="dropdown-item" href="#" data-brand="dell">دل</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">همه برندها</a></li>
+                                <li><a class="dropdown-item" href="#" data-brand="all">همه برندها</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -161,7 +582,7 @@
                             <label for="searchInput" class="visually-hidden">جستجو در محصولات</label>
                             <input class="form-control" type="search" id="searchInput" 
                                    placeholder="جستجو..." aria-label="جستجو در محصولات">
-                            <div class="search-results" id="searchResults" role="listbox" aria-label="نتایج جستجو"></div>
+                            <div class="search-results" id="searchResults"></div>
                         </div>
                         <div class="user-menu ms-3">
                             <button class="btn btn-outline-light login-btn" data-bs-toggle="modal" 
@@ -176,7 +597,7 @@
                         <div class="cart-menu ms-3">
                             <button class="btn btn-outline-light position-relative" aria-label="سبد خرید" data-bs-toggle="modal" data-bs-target="#cartModal">
                                 <i class="fas fa-shopping-cart" aria-hidden="true"></i>
-                                <span class="cart-count">0</span>
+                                <span class="cart-count" id="cartCount">0</span>
                                 <span class="visually-hidden">مورد در سبد خرید</span>
                             </button>
                         </div>
@@ -186,10 +607,10 @@
         </nav>
     </header>
 
-    <!-- Main Content -->
+    <!-- محتوای اصلی -->
     <main id="main-content" class="main-content">
-        <!-- Hero Carousel -->
-        <section class="hero-section container" aria-label="اسلایدر محصولات ویژه">
+        <!-- اسلایدر قهرمان -->
+        <section class="hero-section container mt-3" aria-label="اسلایدر محصولات ویژه">
             <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" 
@@ -238,15 +659,15 @@
             </div>
         </section>
 
-        <!-- Products Section -->
-        <section class="products-section container mt-4" id="products" aria-label="محصولات فروشگاه">
+        <!-- بخش محصولات -->
+        <section class="products-section container mt-5" id="products" aria-label="محصولات فروشگاه">
             <div class="row">
-                <!-- Filters Sidebar -->
+                <!-- نوار کناری فیلترها -->
                 <aside class="col-lg-3 col-md-4">
                     <div class="filter-section" role="region" aria-label="فیلتر محصولات">
                         <h5 class="mb-3">فیلتر محصولات</h5>
                         
-                        <!-- Categories Filter -->
+                        <!-- فیلتر دسته‌بندی‌ها -->
                         <div class="product-filters">
                             <button class="filter-title w-100 text-start d-flex justify-content-between align-items-center" 
                                     data-bs-toggle="collapse" data-bs-target="#categoryFilter" 
@@ -255,31 +676,31 @@
                             </button>
                             <div class="filter-content collapse show" id="categoryFilter">
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="cat1" value="programming">
+                                    <input class="form-check-input category-filter" type="checkbox" id="cat1" value="programming" data-category="programming">
                                     <label class="form-check-label" for="cat1">
                                         لپ‌تاپ برنامه‌نویسی
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="cat2" value="gaming">
+                                    <input class="form-check-input category-filter" type="checkbox" id="cat2" value="gaming" data-category="gaming">
                                     <label class="form-check-label" for="cat2">
                                         لپ‌تاپ گیمینگ
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="cat3" value="office">
+                                    <input class="form-check-input category-filter" type="checkbox" id="cat3" value="office" data-category="office">
                                     <label class="form-check-label" for="cat3">
                                         لپ‌تاپ اداری
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="cat4" value="graphic">
+                                    <input class="form-check-input category-filter" type="checkbox" id="cat4" value="graphic" data-category="graphic">
                                     <label class="form-check-label" for="cat4">
                                         لپ‌تاپ گرافیکی
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="cat5" value="student">
+                                    <input class="form-check-input category-filter" type="checkbox" id="cat5" value="student" data-category="student">
                                     <label class="form-check-label" for="cat5">
                                         لپ‌تاپ دانشجویی
                                     </label>
@@ -287,7 +708,7 @@
                             </div>
                         </div>
                         
-                        <!-- Brands Filter -->
+                        <!-- فیلتر برندها -->
                         <div class="product-filters">
                             <button class="filter-title w-100 text-start d-flex justify-content-between align-items-center" 
                                     data-bs-toggle="collapse" data-bs-target="#brandFilter" 
@@ -296,31 +717,31 @@
                             </button>
                             <div class="filter-content collapse show" id="brandFilter">
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="brand1" value="apple">
+                                    <input class="form-check-input brand-filter" type="checkbox" id="brand1" value="apple" data-brand="apple">
                                     <label class="form-check-label" for="brand1">
                                         اپل
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="brand2" value="lenovo">
+                                    <input class="form-check-input brand-filter" type="checkbox" id="brand2" value="lenovo" data-brand="lenovo">
                                     <label class="form-check-label" for="brand2">
                                         لنوو
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="brand3" value="asus">
+                                    <input class="form-check-input brand-filter" type="checkbox" id="brand3" value="asus" data-brand="asus">
                                     <label class="form-check-label" for="brand3">
                                         ایسوس
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="brand4" value="hp">
+                                    <input class="form-check-input brand-filter" type="checkbox" id="brand4" value="hp" data-brand="hp">
                                     <label class="form-check-label" for="brand4">
                                         اچ‌پی
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="brand5" value="dell">
+                                    <input class="form-check-input brand-filter" type="checkbox" id="brand5" value="dell" data-brand="dell">
                                     <label class="form-check-label" for="brand5">
                                         دل
                                     </label>
@@ -328,7 +749,7 @@
                             </div>
                         </div>
                         
-                        <!-- Price Filter -->
+                        <!-- فیلتر قیمت -->
                         <div class="product-filters">
                             <button class="filter-title w-100 text-start d-flex justify-content-between align-items-center" 
                                     data-bs-toggle="collapse" data-bs-target="#priceFilter" 
@@ -338,15 +759,15 @@
                             <div class="filter-content collapse show" id="priceFilter">
                                 <div class="price-range">
                                     <label for="minPrice">از:</label>
-                                    <input type="number" class="form-control" id="minPrice" placeholder="حداقل قیمت" min="0">
-                                    <label for="maxPrice">تا:</label>
-                                    <input type="number" class="form-control" id="maxPrice" placeholder="حداکثر قیمت" min="0">
+                                    <input type="number" class="form-control" id="minPrice" placeholder="حداقل قیمت" min="0" value="0">
+                                    <label for="maxPrice" class="mt-2">تا:</label>
+                                    <input type="number" class="form-control" id="maxPrice" placeholder="حداکثر قیمت" min="0" value="30000000">
                                 </div>
                                 <button class="btn btn-primary w-100 mt-3" id="applyPriceFilter">اعمال فیلتر</button>
                             </div>
                         </div>
                   
-                        <!-- Rating Filter -->
+                        <!-- فیلتر امتیاز -->
                         <div class="product-filters">
                             <button class="filter-title w-100 text-start d-flex justify-content-between align-items-center" 
                                     data-bs-toggle="collapse" data-bs-target="#ratingFilter" 
@@ -355,7 +776,7 @@
                             </button>
                             <div class="filter-content collapse show" id="ratingFilter">
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="rating" id="rating5" value="5">
+                                    <input class="form-check-input rating-filter" type="radio" name="rating" id="rating5" value="5">
                                     <label class="form-check-label" for="rating5">
                                         <span class="stars" aria-label="۵ ستاره">
                                             <i class="fas fa-star text-warning"></i>
@@ -367,7 +788,7 @@
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="rating" id="rating4" value="4">
+                                    <input class="form-check-input rating-filter" type="radio" name="rating" id="rating4" value="4">
                                     <label class="form-check-label" for="rating4">
                                         <span class="stars" aria-label="۴ ستاره و بالاتر">
                                             <i class="fas fa-star text-warning"></i>
@@ -379,7 +800,7 @@
                                     </label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="rating" id="rating3" value="3">
+                                    <input class="form-check-input rating-filter" type="radio" name="rating" id="rating3" value="3">
                                     <label class="form-check-label" for="rating3">
                                         <span class="stars" aria-label="۳ ستاره و بالاتر">
                                             <i class="fas fa-star text-warning"></i>
@@ -390,20 +811,26 @@
                                         </span>
                                     </label>
                                 </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input rating-filter" type="radio" name="rating" id="ratingAll" value="0" checked>
+                                    <label class="form-check-label" for="ratingAll">
+                                        همه امتیازها
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         
-                        <!-- Clear Filters Button -->
+                        <!-- دکمه حذف فیلترها -->
                         <button class="btn btn-outline-secondary w-100 mt-3" id="clearFilters">
                             <i class="fas fa-times" aria-hidden="true"></i> حذف فیلترها
                         </button>
                     </div>
                 </aside>
 
-                <!-- Products Grid -->
+                <!-- شبکه محصولات -->
                 <div class="col-lg-9 col-md-8">
                     <div class="product-section">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
                             <h2 class="section-title">محصولات ویژه</h2>
                             <div class="product-sort">
                                 <label for="sortSelect" class="visually-hidden">مرتب‌سازی محصولات</label>
@@ -418,8 +845,8 @@
                         </div>
                         
                         <div class="row" id="productsList">
-                            <!-- Product 1: Lenovo ThinkPad X1 -->
-                            <article class="col-lg-4 col-md-6 mb-4 product-item" data-category="programming" data-brand="lenovo" data-price="15500000" data-rating="4">
+                            <!-- محصول 1: Lenovo ThinkPad X1 -->
+                            <article class="col-lg-4 col-md-6 mb-4 product-item" data-category="programming" data-brand="lenovo" data-price="15500000" data-rating="4" data-name="لنوو ThinkPad X1">
                                 <div class="card position-relative h-100">
                                     <span class="discount-badge" aria-label="تخفیف ۲۰ درصدی">20%</span>
                                     <div class="card-img-container">
@@ -446,7 +873,7 @@
                                             ۱۵,۵۰۰,۰۰۰ تومان
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mt-3">
-                                            <a href="product-detail.html?id=1" class="btn btn-primary" target="_blank" rel="noopener noreferrer">مشاهده جزئیات</a>
+                                            <a href="product-detail.html?id=1" class="btn btn-primary">مشاهده جزئیات</a>
                                             <div>
                                                 <button class="btn wishlist-btn" aria-label="افزودن به علاقه‌مندی‌ها" data-product-id="1">
                                                     <i class="far fa-heart"></i>
@@ -457,7 +884,7 @@
                                             </div>
                                         </div>
                                         
-                                        <!-- Reviews Section -->
+                                        <!-- بخش نظرات -->
                                         <details class="review-section mt-3">
                                             <summary class="review-toggle">نظرات کاربران</summary>
                                             <div class="review-list mt-2">
@@ -491,10 +918,10 @@
                                                 </div>
                                             </div>
                                             
-                                            <!-- Add Review Form -->
+                                            <!-- فرم ثبت نظر -->
                                             <div class="add-review mt-3">
                                                 <h6>ثبت نظر شما</h6>
-                                                <form>
+                                                <form class="review-form" data-product-id="1">
                                                     <div class="form-group mb-2">
                                                         <label for="reviewName1" class="form-label">نام شما</label>
                                                         <input type="text" id="reviewName1" class="form-control" required>
@@ -521,8 +948,8 @@
                                 </div>
                             </article>
                             
-                            <!-- Product 2: ASUS ROG Strix -->
-                            <article class="col-lg-4 col-md-6 mb-4 product-item" data-category="gaming" data-brand="asus" data-price="12200000" data-rating="5">
+                            <!-- محصول 2: ASUS ROG Strix -->
+                            <article class="col-lg-4 col-md-6 mb-4 product-item" data-category="gaming" data-brand="asus" data-price="12200000" data-rating="5" data-name="ایسوس ROG Strix">
                                 <div class="card position-relative h-100">
                                     <span class="discount-badge" aria-label="تخفیف ۱۵ درصدی">15%</span>
                                     <div class="card-img-container">
@@ -550,7 +977,7 @@
                                             ۱۲,۲۰۰,۰۰۰ تومان
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mt-3">
-                                            <a href="product-detail.html?id=2" class="btn btn-primary" target="_blank" rel="noopener noreferrer">مشاهده جزئیات</a>
+                                            <a href="product-detail.html?id=2" class="btn btn-primary">مشاهده جزئیات</a>
                                             <div>
                                                 <button class="btn wishlist-btn" aria-label="افزودن به علاقه‌مندی‌ها" data-product-id="2">
                                                     <i class="far fa-heart"></i>
@@ -561,7 +988,7 @@
                                             </div>
                                         </div>
                                     
-                                        <!-- Reviews Section -->
+                                        <!-- بخش نظرات -->
                                         <details class="review-section mt-3">
                                             <summary class="review-toggle">نظرات کاربران</summary>
                                             <div class="review-list mt-2">
@@ -581,10 +1008,10 @@
                                                 </div>
                                             </div>
                                             
-                                            <!-- Add Review Form -->
+                                            <!-- فرم ثبت نظر -->
                                             <div class="add-review mt-3">
                                                 <h6>ثبت نظر شما</h6>
-                                                <form>
+                                                <form class="review-form" data-product-id="2">
                                                     <div class="form-group mb-2">
                                                         <label for="reviewName2" class="form-label">نام شما</label>
                                                         <input type="text" id="reviewName2" class="form-control" required>
@@ -611,8 +1038,8 @@
                                 </div>
                             </article>
                             
-                            <!-- Product 3: Apple MacBook Pro -->
-                            <article class="col-lg-4 col-md-6 mb-4 product-item" data-category="graphic" data-brand="apple" data-price="28500000" data-rating="4.5">
+                            <!-- محصول 3: Apple MacBook Pro -->
+                            <article class="col-lg-4 col-md-6 mb-4 product-item" data-category="graphic" data-brand="apple" data-price="28500000" data-rating="4.5" data-name="اپل MacBook Pro">
                                 <div class="card position-relative h-100">
                                     <div class="card-img-container">
                                         <img src="6e57ca6ee4c9680214d6e0a58c6ad744cc73a90d_1746264720.webp" class="card-img-top" alt="لپ تاپ اپل MacBook Pro">
@@ -635,7 +1062,7 @@
                                         </div>
                                         <div class="price mt-auto">۲۸,۵۰۰,۰۰۰ تومان</div>
                                         <div class="d-flex justify-content-between align-items-center mt-3">
-                                            <a href="product-detail.html?id=3" class="btn btn-primary" target="_blank" rel="noopener noreferrer">مشاهده جزئیات</a>
+                                            <a href="product-detail.html?id=3" class="btn btn-primary">مشاهده جزئیات</a>
                                             <div>
                                                 <button class="btn wishlist-btn" aria-label="افزودن به علاقه‌مندی‌ها" data-product-id="3">
                                                     <i class="far fa-heart"></i>
@@ -646,7 +1073,7 @@
                                             </div>
                                         </div>
                                         
-                                        <!-- Reviews Section -->
+                                        <!-- بخش نظرات -->
                                         <details class="review-section mt-3">
                                             <summary class="review-toggle">نظرات کاربران</summary>
                                             <div class="review-list mt-2">
@@ -666,10 +1093,10 @@
                                                 </div>
                                             </div>
                                             
-                                            <!-- Add Review Form -->
+                                            <!-- فرم ثبت نظر -->
                                             <div class="add-review mt-3">
                                                 <h6>ثبت نظر شما</h6>
-                                                <form>
+                                                <form class="review-form" data-product-id="3">
                                                     <div class="form-group mb-2">
                                                         <label for="reviewName3" class="form-label">نام شما</label>
                                                         <input type="text" id="reviewName3" class="form-control" required>
@@ -696,8 +1123,8 @@
                                 </div>
                             </article>
                             
-                            <!-- Product 4: HP Pavilion -->
-                            <article class="col-lg-4 col-md-6 mb-4 product-item" data-category="student" data-brand="hp" data-price="10800000" data-rating="3">
+                            <!-- محصول 4: HP Pavilion -->
+                            <article class="col-lg-4 col-md-6 mb-4 product-item" data-category="student" data-brand="hp" data-price="10800000" data-rating="3" data-name="اچ‌پی Pavilion">
                                 <div class="card position-relative h-100">
                                     <span class="discount-badge" aria-label="تخفیف ۱۰ درصدی">10%</span>
                                     <div class="card-img-container">
@@ -724,7 +1151,7 @@
                                             ۱۰,۸۰۰,۰۰۰ تومان
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mt-3">
-                                            <a href="product-detail.html?id=4" class="btn btn-primary" target="_blank" rel="noopener noreferrer">مشاهده جزئیات</a>
+                                            <a href="product-detail.html?id=4" class="btn btn-primary">مشاهده جزئیات</a>
                                             <div>
                                                 <button class="btn wishlist-btn" aria-label="افزودن به علاقه‌مندی‌ها" data-product-id="4">
                                                     <i class="far fa-heart"></i>
@@ -735,7 +1162,7 @@
                                             </div>
                                         </div>
                                         
-                                        <!-- Reviews Section -->
+                                        <!-- بخش نظرات -->
                                         <details class="review-section mt-3">
                                             <summary class="review-toggle">نظرات کاربران</summary>
                                             <div class="review-list mt-2">
@@ -755,10 +1182,10 @@
                                                 </div>
                                             </div>
                   
-                                            <!-- Add Review Form -->
+                                            <!-- فرم ثبت نظر -->
                                             <div class="add-review mt-3">
                                                 <h6>ثبت نظر شما</h6>
-                                                <form>
+                                                <form class="review-form" data-product-id="4">
                                                     <div class="form-group mb-2">
                                                         <label for="reviewName4" class="form-label">نام شما</label>
                                                         <input type="text" id="reviewName4" class="form-control" required>
@@ -785,8 +1212,8 @@
                                 </div>
                             </article>
                             
-                            <!-- Product 5: Dell XPS 13 -->
-                            <article class="col-lg-4 col-md-6 mb-4 product-item" data-category="office" data-brand="dell" data-price="16700000" data-rating="5">
+                            <!-- محصول 5: Dell XPS 13 -->
+                            <article class="col-lg-4 col-md-6 mb-4 product-item" data-category="office" data-brand="dell" data-price="16700000" data-rating="5" data-name="دل XPS 13">
                                 <div class="card position-relative h-100">
                                     <div class="card-img-container">
                                         <img src="./c1f5860938d7dc087df2dddc1dccf07aa63f1d02_1694265753.webp" class="card-img-top" alt="لپ تاپ دل XPS 13">
@@ -809,7 +1236,7 @@
                                         </div>
                                         <div class="price mt-auto">۱۶,۷۰۰,۰۰۰ تومان</div>
                                         <div class="d-flex justify-content-between align-items-center mt-3">
-                                            <a href="product-detail.html?id=5" class="btn btn-primary" target="_blank" rel="noopener noreferrer">مشاهده جزئیات</a>
+                                            <a href="product-detail.html?id=5" class="btn btn-primary">مشاهده جزئیات</a>
                                             <div>
                                                 <button class="btn wishlist-btn" aria-label="افزودن به علاقه‌مندی‌ها" data-product-id="5">
                                                     <i class="far fa-heart"></i>
@@ -820,7 +1247,7 @@
                                             </div>
                                         </div>
                                          
-                                        <!-- Reviews Section -->
+                                        <!-- بخش نظرات -->
                                         <details class="review-section mt-3">
                                             <summary class="review-toggle">نظرات کاربران</summary>
                                             <div class="review-list mt-2">
@@ -840,10 +1267,10 @@
                                                 </div>
                                             </div>
                                          
-                                            <!-- Add Review Form -->
+                                            <!-- فرم ثبت نظر -->
                                             <div class="add-review mt-3">
                                                 <h6>ثبت نظر شما</h6>
-                                                <form>
+                                                <form class="review-form" data-product-id="5">
                                                     <div class="form-group mb-2">
                                                         <label for="reviewName5" class="form-label">نام شما</label>
                                                         <input type="text" id="reviewName5" class="form-control" required>
@@ -870,8 +1297,8 @@
                                 </div>
                             </article>
                             
-                            <!-- Product 6: MSI Creator -->
-                            <article class="col-lg-4 col-md-6 mb-4 product-item" data-category="graphic" data-brand="msi" data-price="19900000" data-rating="4">
+                            <!-- محصول 6: MSI Creator -->
+                            <article class="col-lg-4 col-md-6 mb-4 product-item" data-category="graphic" data-brand="msi" data-price="19900000" data-rating="4" data-name="ام‌اس‌آی Creator">
                                 <div class="card position-relative h-100">
                                     <span class="discount-badge" aria-label="تخفیف ۵ درصدی">5%</span>
                                     <div class="card-img-container">
@@ -899,7 +1326,7 @@
                                             ۱۹,۹۰۰,۰۰۰ تومان
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mt-3">
-                                            <a href="product-detail.html?id=6" class="btn btn-primary" target="_blank" rel="noopener noreferrer">مشاهده جزئیات</a>
+                                            <a href="product-detail.html?id=6" class="btn btn-primary">مشاهده جزئیات</a>
                                             <div>
                                                 <button class="btn wishlist-btn" aria-label="افزودن به علاقه‌مندی‌ها" data-product-id="6">
                                                     <i class="far fa-heart"></i>
@@ -910,7 +1337,7 @@
                                             </div>
                                         </div>
                                         
-                                        <!-- Reviews Section -->
+                                        <!-- بخش نظرات -->
                                         <details class="review-section mt-3">
                                             <summary class="review-toggle">نظرات کاربران</summary>
                                             <div class="review-list mt-2">
@@ -930,10 +1357,10 @@
                                                 </div>
                                             </div>
                                          
-                                            <!-- Add Review Form -->
+                                            <!-- فرم ثبت نظر -->
                                             <div class="add-review mt-3">
                                                 <h6>ثبت نظر شما</h6>
-                                                <form>
+                                                <form class="review-form" data-product-id="6">
                                                     <div class="form-group mb-2">
                                                         <label for="reviewName6" class="form-label">نام شما</label>
                                                         <input type="text" id="reviewName6" class="form-control" required>
@@ -961,7 +1388,7 @@
                             </article>
                         </div>
                         
-                        <!-- Pagination -->
+                        <!-- صفحه‌بندی -->
                         <nav aria-label="صفحه‌بندی محصولات" class="mt-4">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item disabled">
@@ -980,9 +1407,10 @@
             </div>
         </section>
         
-        <!-- Features Section -->
-        <section class="features-section py-5" aria-label="ویژگی‌های فروشگاه">
+        <!-- بخش ویژگی‌ها -->
+        <section class="features-section py-5 bg-light" aria-label="ویژگی‌های فروشگاه">
             <div class="container">
+                <h2 class="text-center mb-5">چرا فروشگاه لپ‌تاپ Mahdi Arshi را انتخاب کنید؟</h2>
                 <div class="row">
                     <div class="col-md-3 col-sm-6 mb-4">
                         <div class="feature-box text-center">
@@ -1017,7 +1445,7 @@
         </section>
     </main>
     
-    <!-- Footer -->
+    <!-- فوتر -->
     <footer class="footer bg-dark text-light py-5" id="contact">
         <div class="container">
             <div class="row">
@@ -1062,9 +1490,9 @@
                     <address>
                         <p><i class="fas fa-map-marker-alt me-2"></i>گلدشت خیابان آیت ا... ایزدی</p>
                         <p><i class="fas fa-phone me-2"></i> تلفن: به زودی</p>
-                        <p><i class="fas fa-envelope me-2"></i> ایمیل:mahdiarshi.2005@gmail.com</p>
+                        <p><i class="fas fa-envelope me-2"></i> ایمیل: mahdiarshi.2005@gmail.com</p>
                     </address>
-                    <form class="mt-3">
+                    <form class="mt-3" id="newsletterForm">
                         <div class="input-group">
                             <label for="newsletterEmail" class="visually-hidden">ایمیل خود را وارد کنید</label>
                             <input type="email" class="form-control" id="newsletterEmail" placeholder="ایمیل خود را وارد کنید" required>
@@ -1079,7 +1507,7 @@
         </div>
     </footer>
 
-    <!-- Authentication Modal -->
+    <!-- مودال احراز هویت -->
     <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -1094,11 +1522,11 @@
                                     type="button" role="tab" aria-controls="register" aria-selected="false">ثبت‌نام</button>
                         </li>
                     </ul>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="بستن"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
                 </div>
                 <div class="modal-body">
                     <div class="tab-content" id="authTabContent">
-                        <!-- Login Tab -->
+                        <!-- تب ورود -->
                         <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
                             <form id="loginForm" novalidate>
                                 <div class="form-group mb-3">
@@ -1129,7 +1557,7 @@
                             </form>
                         </div>
                         
-                        <!-- Register Tab -->
+                        <!-- تب ثبت‌نام -->
                         <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
                             <form id="registerForm" novalidate>
                                 <div class="form-group mb-3">
@@ -1183,7 +1611,7 @@
         </div>
     </div>
 
-    <!-- Cart Modal -->
+    <!-- مودال سبد خرید -->
     <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -1193,14 +1621,18 @@
                 </div>
                 <div class="modal-body">
                     <div id="cartItems">
-                        <!-- Cart items will be dynamically added here -->
+                        <!-- آیتم‌های سبد خرید به صورت پویا اضافه خواهند شد -->
+                        <div class="empty-cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <p>سبد خرید شما خالی است</p>
+                        </div>
                     </div>
-                    <div class="cart-total">
+                    <div class="cart-total d-none">
                         <span>جمع کل:</span>
                         <span id="cartTotal">0 تومان</span>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-none" id="cartFooter">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ادامه خرید</button>
                     <button type="button" class="btn btn-primary" id="checkoutBtn">تکمیل خرید</button>
                 </div>
@@ -1208,13 +1640,498 @@
         </div>
     </div>
 
-    <!-- Toast Container -->
+    <!-- کانتینر توست -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
-    <!-- Scripts -->
+    <!-- اسکریپت‌ها -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- TODO: Create a new file named 'script.js' and paste the JavaScript code from the previous response into it. -->
-    <script src="script.js"></script>
+    <!-- فایل اسکریپت سفارشی -->
+    <script>
+        // کد جاوااسکریپت برای عملکردهای سایت
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // مدیریت سبد خرید
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartCount = document.getElementById('cartCount');
+            const cartModal = document.getElementById('cartModal');
+            
+            // به‌روزرسانی تعداد سبد خرید
+            function updateCartCount() {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+                cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+            
+            // افزودن محصول به سبد خرید
+            document.querySelectorAll('.cart-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
+                    const productName = this.getAttribute('data-product-name');
+                    const productPrice = parseInt(this.getAttribute('data-product-price'));
+                    
+                    // بررسی وجود محصول در سبد
+                    const existingItem = cart.find(item => item.id === productId);
+                    
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            id: productId,
+                            name: productName,
+                            price: productPrice,
+                            quantity: 1,
+                            image: this.closest('.product-item').querySelector('img').src
+                        });
+                    }
+                    
+                    // ذخیره در localStorage
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    
+                    // به‌روزرسانی تعداد
+                    updateCartCount();
+                    
+                    // نمایش پیام موفقیت
+                    showToast('محصول به سبد خرید اضافه شد', 'success');
+                });
+            });
+            
+            // نمایش سبد خرید
+            cartModal.addEventListener('show.bs.modal', function() {
+                renderCart();
+            });
+            
+            // رندر سبد خرید
+            function renderCart() {
+                const cartItemsContainer = document.getElementById('cartItems');
+                const cartTotalElement = document.getElementById('cartTotal');
+                const cartFooter = document.getElementById('cartFooter');
+                const cartTotalContainer = document.querySelector('.cart-total');
+                
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = `
+                        <div class="empty-cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <p>سبد خرید شما خالی است</p>
+                        </div>
+                    `;
+                    cartFooter.classList.add('d-none');
+                    cartTotalContainer.classList.add('d-none');
+                    return;
+                }
+                
+                let cartHTML = '';
+                let total = 0;
+                
+                cart.forEach((item, index) => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    
+                    cartHTML += `
+                        <div class="cart-item">
+                            <img src="${item.image}" alt="${item.name}">
+                            <div class="cart-item-details">
+                                <div class="cart-item-title">${item.name}</div>
+                                <div class="cart-item-price">${formatPrice(item.price)} تومان</div>
+                                <div class="cart-item-quantity">
+                                    <button class="quantity-btn decrease-quantity" data-index="${index}">-</button>
+                                    <span class="quantity-value">${item.quantity}</span>
+                                    <button class="quantity-btn increase-quantity" data-index="${index}">+</button>
+                                    <button class="btn btn-sm btn-danger ms-3 remove-item" data-index="${index}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <div class="mt-2 fw-bold">مجموع: ${formatPrice(itemTotal)} تومان</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                cartItemsContainer.innerHTML = cartHTML;
+                cartTotalElement.textContent = `${formatPrice(total)} تومان`;
+                cartFooter.classList.remove('d-none');
+                cartTotalContainer.classList.remove('d-none');
+                
+                // اضافه کردن رویدادها به دکمه‌های کمیت
+                document.querySelectorAll('.decrease-quantity').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        if (cart[index].quantity > 1) {
+                            cart[index].quantity -= 1;
+                        } else {
+                            cart.splice(index, 1);
+                        }
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        updateCartCount();
+                        renderCart();
+                    });
+                });
+                
+                document.querySelectorAll('.increase-quantity').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        cart[index].quantity += 1;
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        updateCartCount();
+                        renderCart();
+                    });
+                });
+                
+                document.querySelectorAll('.remove-item').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        cart.splice(index, 1);
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        updateCartCount();
+                        renderCart();
+                        showToast('محصول از سبد خرید حذف شد', 'info');
+                    });
+                });
+            }
+            
+            // فرمت قیمت
+            function formatPrice(price) {
+                return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            // نمایش توست
+            function showToast(message, type = 'info') {
+                const toastContainer = document.querySelector('.toast-container');
+                const toastId = 'toast-' + Date.now();
+                
+                const toastHTML = `
+                    <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ${message}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="بستن"></button>
+                        </div>
+                    </div>
+                `;
+                
+                toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+                
+                const toastElement = document.getElementById(toastId);
+                const toast = new bootstrap.Toast(toastElement, {
+                    delay: 3000
+                });
+                toast.show();
+                
+                // حذف توست پس از بسته شدن
+                toastElement.addEventListener('hidden.bs.toast', function() {
+                    this.remove();
+                });
+            }
+            
+            // مدیریت دکمه‌های علاقه‌مندی
+            document.querySelectorAll('.wishlist-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
+                    const heartIcon = this.querySelector('i');
+                    
+                    // تغییر وضعیت قلب
+                    if (heartIcon.classList.contains('far')) {
+                        heartIcon.classList.remove('far');
+                        heartIcon.classList.add('fas');
+                        showToast('به علاقه‌مندی‌ها اضافه شد', 'success');
+                    } else {
+                        heartIcon.classList.remove('fas');
+                        heartIcon.classList.add('far');
+                        showToast('از علاقه‌مندی‌ها حذف شد', 'info');
+                    }
+                });
+            });
+            
+            // فیلتر محصولات
+            const categoryFilters = document.querySelectorAll('.category-filter');
+            const brandFilters = document.querySelectorAll('.brand-filter');
+            const ratingFilters = document.querySelectorAll('.rating-filter');
+            const applyPriceFilter = document.getElementById('applyPriceFilter');
+            const clearFilters = document.getElementById('clearFilters');
+            const sortSelect = document.getElementById('sortSelect');
+            const productItems = document.querySelectorAll('.product-item');
+            
+            // اعمال فیلترها
+            function applyFilters() {
+                const selectedCategories = Array.from(document.querySelectorAll('.category-filter:checked')).map(cb => cb.value);
+                const selectedBrands = Array.from(document.querySelectorAll('.brand-filter:checked')).map(cb => cb.value);
+                const selectedRating = document.querySelector('.rating-filter:checked')?.value || '0';
+                const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
+                const maxPrice = parseInt(document.getElementById('maxPrice').value) || Infinity;
+                
+                productItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+                    const brand = item.getAttribute('data-brand');
+                    const rating = parseFloat(item.getAttribute('data-rating'));
+                    const price = parseInt(item.getAttribute('data-price'));
+                    
+                    const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(category);
+                    const brandMatch = selectedBrands.length === 0 || selectedBrands.includes(brand);
+                    const ratingMatch = selectedRating === '0' || rating >= parseFloat(selectedRating);
+                    const priceMatch = price >= minPrice && price <= maxPrice;
+                    
+                    if (categoryMatch && brandMatch && ratingMatch && priceMatch) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+            
+            // اضافه کردن رویداد به فیلترها
+            categoryFilters.forEach(filter => {
+                filter.addEventListener('change', applyFilters);
+            });
+            
+            brandFilters.forEach(filter => {
+                filter.addEventListener('change', applyFilters);
+            });
+            
+            ratingFilters.forEach(filter => {
+                filter.addEventListener('change', applyFilters);
+            });
+            
+            applyPriceFilter.addEventListener('click', applyFilters);
+            
+            // مرتب‌سازی محصولات
+            sortSelect.addEventListener('change', function() {
+                const sortValue = this.value;
+                const productContainer = document.getElementById('productsList');
+                const products = Array.from(productItems);
+                
+                products.sort((a, b) => {
+                    const priceA = parseInt(a.getAttribute('data-price'));
+                    const priceB = parseInt(b.getAttribute('data-price'));
+                    const ratingA = parseFloat(a.getAttribute('data-rating'));
+                    const ratingB = parseFloat(b.getAttribute('data-rating'));
+                    
+                    switch (sortValue) {
+                        case 'price-low':
+                            return priceA - priceB;
+                        case 'price-high':
+                            return priceB - priceA;
+                        case 'rating':
+                            return ratingB - ratingA;
+                        case 'newest':
+                            return 0; // در حالت واقعی باید تاریخ محصولات مقایسه شود
+                        default:
+                            return 0;
+                    }
+                });
+                
+                // حذف محصولات فعلی
+                productContainer.innerHTML = '';
+                
+                // اضافه کردن محصولات مرتب‌شده
+                products.forEach(product => {
+                    if (product.style.display !== 'none') {
+                        productContainer.appendChild(product);
+                    }
+                });
+            });
+            
+            // حذف فیلترها
+            clearFilters.addEventListener('click', function() {
+                // بازنشانی چک‌باکس‌ها
+                categoryFilters.forEach(cb => cb.checked = false);
+                brandFilters.forEach(cb => cb.checked = false);
+                
+                // بازنشانی رادیوها
+                document.getElementById('ratingAll').checked = true;
+                
+                // بازنشانی قیمت
+                document.getElementById('minPrice').value = '0';
+                document.getElementById('maxPrice').value = '30000000';
+                
+                // بازنشانی مرتب‌سازی
+                sortSelect.value = 'default';
+                
+                // اعمال فیلترها
+                applyFilters();
+                
+                showToast('همه فیلترها حذف شدند', 'info');
+            });
+            
+            // مدیریت فرم‌های احراز هویت
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            
+            // نمایش/مخفی کردن رمز عبور
+            function setupPasswordToggle(buttonId, inputId) {
+                const toggleButton = document.getElementById(buttonId);
+                const passwordInput = document.getElementById(inputId);
+                
+                if (toggleButton && passwordInput) {
+                    toggleButton.addEventListener('click', function() {
+                        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                        passwordInput.setAttribute('type', type);
+                        this.querySelector('i').classList.toggle('fa-eye');
+                        this.querySelector('i').classList.toggle('fa-eye-slash');
+                    });
+                }
+            }
+            
+            setupPasswordToggle('toggleLoginPassword', 'loginPassword');
+            setupPasswordToggle('toggleRegisterPassword', 'registerPassword');
+            setupPasswordToggle('toggleConfirmPassword', 'confirmPassword');
+            
+            // اعتبارسنجی فرم ثبت‌نام
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const password = document.getElementById('registerPassword').value;
+                    const confirmPassword = document.getElementById('confirmPassword').value;
+                    
+                    if (password !== confirmPassword) {
+                        document.getElementById('confirmPassword').classList.add('is-invalid');
+                        return;
+                    }
+                    
+                    if (this.checkValidity()) {
+                        showToast('ثبت‌نام موفقیت‌آمیز بود!', 'success');
+                        
+                        // در حالت واقعی اینجا اطلاعات به سرور ارسال می‌شود
+                        const authModal = bootstrap.Modal.getInstance(document.getElementById('authModal'));
+                        authModal.hide();
+                        
+                        // بازنشانی فرم
+                        this.reset();
+                    }
+                });
+            }
+            
+            // اعتبارسنجی فرم ورود
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    if (this.checkValidity()) {
+                        showToast('ورود موفقیت‌آمیز بود!', 'success');
+                        
+                        // در حالت واقعی اینجا اطلاعات به سرور ارسال می‌شود
+                        const authModal = bootstrap.Modal.getInstance(document.getElementById('authModal'));
+                        authModal.hide();
+                        
+                        // بازنشانی فرم
+                        this.reset();
+                    }
+                });
+            }
+            
+            // مدیریت فرم ثبت نظر
+            document.querySelectorAll('.review-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const productId = this.getAttribute('data-product-id');
+                    const reviewText = this.querySelector('textarea').value;
+                    
+                    // در حالت واقعی اینجا نظر به سرور ارسال می‌شود
+                    showToast('نظر شما با موفقیت ثبت شد', 'success');
+                    
+                    // پاک کردن فرم
+                    this.reset();
+                    
+                    // بستن بخش نظرات
+                    const details = this.closest('details');
+                    details.removeAttribute('open');
+                });
+            });
+            
+            // مدیریت فرم خبرنامه
+            const newsletterForm = document.getElementById('newsletterForm');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('newsletterEmail').value;
+                    
+                    // در حالت واقعی اینجا ایمیل به سرور ارسال می‌شود
+                    showToast(`ایمیل ${email} با موفقیت در خبرنامه ثبت شد`, 'success');
+                    
+                    // بازنشانی فرم
+                    this.reset();
+                });
+            }
+            
+            // مدیریت جستجو
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+            
+            if (searchInput && searchResults) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.trim().toLowerCase();
+                    
+                    if (searchTerm.length < 2) {
+                        searchResults.style.display = 'none';
+                        return;
+                    }
+                    
+                    // فیلتر کردن محصولات بر اساس عبارت جستجو
+                    const filteredProducts = Array.from(productItems).filter(item => {
+                        const productName = item.getAttribute('data-name').toLowerCase();
+                        const productDescription = item.querySelector('.card-text').textContent.toLowerCase();
+                        
+                        return productName.includes(searchTerm) || productDescription.includes(searchTerm);
+                    });
+                    
+                    // نمایش نتایج
+                    if (filteredProducts.length > 0) {
+                        let resultsHTML = '';
+                        
+                        filteredProducts.slice(0, 5).forEach(product => {
+                            const productName = product.getAttribute('data-name');
+                            const productPrice = formatPrice(parseInt(product.getAttribute('data-price')));
+                            const productImage = product.querySelector('img').src;
+                            
+                            resultsHTML += `
+                                <div class="search-result-item" data-product-id="${product.getAttribute('data-category')}">
+                                    <div class="d-flex align-items-center">
+                                        <img src="${productImage}" alt="${productName}" class="search-result-image">
+                                        <div>
+                                            <div class="fw-bold">${productName}</div>
+                                            <div class="text-success">${productPrice} تومان</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        
+                        searchResults.innerHTML = resultsHTML;
+                        searchResults.style.display = 'block';
+                        
+                        // اضافه کردن رویداد کلیک به نتایج
+                        document.querySelectorAll('.search-result-item').forEach(item => {
+                            item.addEventListener('click', function() {
+                                const productId = this.getAttribute('data-product-id');
+                                
+                                // پرش به محصول مربوطه
+                                document.getElementById(productId).scrollIntoView({ behavior: 'smooth' });
+                                
+                                // پنهان کردن نتایج جستجو
+                                searchResults.style.display = 'none';
+                                searchInput.value = '';
+                            });
+                        });
+                    } else {
+                        searchResults.innerHTML = '<div class="search-result-item">محصولی یافت نشد</div>';
+                        searchResults.style.display = 'block';
+                    }
+                });
+                
+                // پنهان کردن نتایج جستجو هنگام کلیک در جای دیگر
+                document.addEventListener('click', function(e) {
+                    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                        searchResults.style.display = 'none';
+                    }
+                });
+            }
+            
+            // به‌روزرسانی تعداد سبد خرید در ابتدا
+            updateCartCount();
+        });
+    </script>
 </body>
 </html>
