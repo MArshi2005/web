@@ -1,3 +1,4 @@
+header('Content-Type: application/json; charset=utf-8');
 <?php
 // اتصال به دیتابیس (Database)
 $data = json_decode(file_get_contents('php://input'));
